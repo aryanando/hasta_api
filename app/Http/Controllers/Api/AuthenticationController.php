@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Workbench\App\Models\User as ModelsUser;
 
 class AuthenticationController extends Controller
 {
@@ -49,6 +50,17 @@ class AuthenticationController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Logged out successfully',
+            ], 200);
+        }
+    }
+
+    public function show()
+    {
+        if (Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successfully',
+                'data' => Auth::user(),
             ], 200);
         }
     }
