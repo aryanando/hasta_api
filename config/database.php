@@ -93,6 +93,20 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        # Your new connection
+        'simsvbaru' => [
+            'driver'    => 'mysql',
+            'host'      => '103.76.149.29',
+            'database'  => 'simsvbaru',
+            'username'  => 'web_hasta',
+            'password'  => '@Admin123/',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => null,
+        ],
+
     ],
 
     /*
