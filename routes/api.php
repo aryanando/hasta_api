@@ -30,7 +30,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('me', [AuthenticationController::class, 'show'])->middleware('auth:api');
 
     // Ranap
-    Route::get('ranap', [RanapController::class, 'index'] )->middleware('auth:api');
+    Route::get('get-ranap', [RanapController::class, 'index'] )->middleware('auth:api');
 });
 
 // Route::middleware('auth:api')->group( function () {
