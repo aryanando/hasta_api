@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Roles;
+use App\Models\Unit_translations;
 use App\Models\User;
 use App\Models\User_roles;
 use Illuminate\Http\Request;
@@ -63,6 +64,9 @@ class AuthenticationController extends Controller
             $user['role'] = Roles::select('*')
             ->join('user_roles', 'roles.id', '=', 'user_roles.role_id')
             ->join('role_translations', 'role_translations.role_id', '=', 'roles.id')
+            ->where('user_id', $user['id'])->get();
+            $user['unit'] = Unit_translations::select('*')
+            ->join('user_units', 'user_units.unit_id', '=', 'unit_translations.id')
             ->where('user_id', $user['id'])->get();
             return response()->json([
                 'success' => true,
