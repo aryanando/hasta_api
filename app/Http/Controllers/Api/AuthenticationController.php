@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Roles;
 use App\Models\User;
+use App\Models\User_roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Workbench\App\Models\User as ModelsUser;
@@ -57,10 +59,15 @@ class AuthenticationController extends Controller
     public function show()
     {
         if (Auth::user()) {
+            $user = Auth::user();
+            $user['role'] = Roles::select('*')
+            ->join('user_roles', 'roles.id', '=', 'user_roles.role_id')
+            ->join('role_translations', 'role_translations.role_id', '=', 'roles.id')
+            ->where('user_id', $user['id'])->get();
             return response()->json([
                 'success' => true,
                 'message' => 'Login successfully',
-                'data' => Auth::user(),
+                'data' => $user,
             ], 200);
         }
     }
