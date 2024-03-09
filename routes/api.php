@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
@@ -31,6 +32,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Ranap
     Route::get('ranap', [RanapController::class, 'index'] )->middleware('auth:api');
+
+    // Absensi
+    Route::get('absensi', [AbsensiController::class, 'index'] )->middleware('auth:api');
 });
 
 // Route::middleware('auth:api')->group( function () {
