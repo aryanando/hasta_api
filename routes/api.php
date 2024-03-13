@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AbsensiController;
+use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
@@ -36,6 +37,11 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Absensi
     Route::get('absensi', [AbsensiController::class, 'index'] )->middleware('auth:api');
     Route::post('absensi', [AbsensiController::class, 'store'] )->middleware('auth:api');
+
+    // Absensi Token
+    Route::get('absensi-token', [AbsensiTokenController::class, 'index'] )->middleware('auth:api');
+    Route::post('absensi-token', [AbsensiTokenController::class, 'store'] )->middleware('auth:api');
+
 });
 
 // Route::middleware('auth:api')->group( function () {
