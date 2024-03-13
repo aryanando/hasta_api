@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\API\BaseController;
+use App\Models\Absens;
 use App\Models\Shifts;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class AbsensiController extends BaseController
 {
@@ -51,9 +55,32 @@ class AbsensiController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         //
+
+
+        $validator = Validator::make($request->all(), [
+            'shift_id' => 'required|exists:shifts,id',
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $input = $request->all();
+
+        $flag = Absens::select('*')
+        ->where('user_id', '=', $input['user_id'])
+        ->where('shift_id', '=', $input['shift_id'])
+        ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
+        ->count();
+
+        if ($flag > 0) {
+            return $this->sendResponse([],'User Already Initiate Absens');
+        }
+        $user = Absens::create($input);
+        return $this->sendResponse([$user],'User check-in successfully.');
     }
 
     /**
