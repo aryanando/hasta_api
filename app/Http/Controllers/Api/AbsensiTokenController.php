@@ -24,7 +24,7 @@ class AbsensiTokenController extends BaseController
         ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
         // ->count();
         if ($old_token->count() > 0) {
-            return $this->sendResponse([$old_token->get()],'Token Created.');
+            return $this->sendResponse([$old_token->get()[0]],'Old Token.');
         }
         $new_token = [
             'token' => Str::random(16),

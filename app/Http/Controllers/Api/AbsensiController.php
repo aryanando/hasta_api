@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\API\BaseController;
 use App\Models\Absens;
+use App\Models\AbsenTokens;
 use App\Models\Shifts;
 use App\Models\User;
 use Carbon\Carbon;
@@ -55,10 +56,17 @@ class AbsensiController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request, $token = NULL): JsonResponse
     {
         //
-
+        $get_token = AbsenTokens::select('*')
+        ->where('token', '=', $token)
+        ->where('used_for', '=', NULL)
+        ->where('user_id', '=', NULL)
+        ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
+        if ($get_token->count() == 0) {
+            return $this->sendError('Validation Error.', 'Token tidak tikenali atau kadaluarsa');
+        }
 
         $validator = Validator::make($request->all(), [
             'shift_id' => 'required|exists:shifts,id',
@@ -77,13 +85,19 @@ class AbsensiController extends BaseController
 
 
         if ($flag->count() > 0) {
-            if ($flag->get()[0]['check_out']!= NULL) {
+            if ($flag->get()[0]['check_out'] != NULL) {
                 return $this->sendResponse([], 'User Already Checkout');
-            }else {
+            } else {
                 return $this->sendResponse([], 'User Already Initiate Absens');
             }
         }
         $user = Absens::create($input);
+        if ($user) {
+            $update_token = AbsenTokens::where('token', '=', $token)->update(['used_for' => 1, 'user_id' => Auth::user()['id']]);
+            if ($update_token) {
+                return $this->sendResponse([$user], 'User check-in successfully.');
+            }
+        }
         return $this->sendResponse([$user], 'User check-in successfully.');
     }
 
@@ -98,8 +112,17 @@ class AbsensiController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Shifts $shifts)
+    public function update(Request $request, Shifts $shifts, $token = NULL)
     {
+        $get_token = AbsenTokens::select('*')
+        ->where('token', '=', $token)
+        ->where('used_for', '=', NULL)
+        ->where('user_id', '=', NULL)
+        ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
+        if ($get_token->count() == 0) {
+            return $this->sendError('Validation Error.', 'Token tidak tikenali atau kadaluarsa');
+        }
+
         $validator = Validator::make($request->all(), [
             'absens_id' => 'required|exists:absens,id',
         ]);
@@ -111,7 +134,12 @@ class AbsensiController extends BaseController
         $input = $request->all();
         $absens = Absens::find($input['absens_id']);
         $absens->check_out = Carbon::now();
-        $absens->save();
+        if ($absens->save()) {
+            $update_token = AbsenTokens::where('token', '=', $token)->update(['used_for' => 2, 'user_id' => Auth::user()['id']]);
+            if ($update_token) {
+                return $this->sendResponse([$absens], 'User check-out successfully.');
+            }
+        }
         return $this->sendResponse([$absens], 'User check-out successfully.');
     }
 
