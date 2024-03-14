@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Absensi
     Route::get('absensi', [AbsensiController::class, 'index'] )->middleware('auth:api');
     Route::post('absensi', [AbsensiController::class, 'store'] )->middleware('auth:api');
+    Route::put('absensi', [AbsensiController::class, 'update'] )->middleware('auth:api');
 
     // Absensi Token
     Route::get('absensi-token', [AbsensiTokenController::class, 'index'] )->middleware('auth:api');

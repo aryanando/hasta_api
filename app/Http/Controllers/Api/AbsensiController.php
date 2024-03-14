@@ -29,20 +29,20 @@ class AbsensiController extends BaseController
 
 
             $data['shift_hari_ini'] = $dataAbsensi->select('*')
-            ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
-            ->where('user_shifts.user_id', '=', $user['id'])
-            ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
-            ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
-            ->get();
+                ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
+                ->where('user_shifts.user_id', '=', $user['id'])
+                ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
+                ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
+                ->get();
 
             $data['absensi_hari_ini'] = $dataAbsensi->select('*')
-            ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
-            ->join('absens', 'absens.shift_id', '=', 'shifts.id')
-            ->where('user_shifts.user_id', '=', $user['id'])
-            ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
-            ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
-            ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
-            ->get();
+                ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
+                ->join('absens', 'absens.shift_id', '=', 'shifts.id')
+                ->where('user_shifts.user_id', '=', $user['id'])
+                ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
+                ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
+                ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
+                ->get();
 
             return response()->json([
                 'success' => true,
@@ -65,22 +65,26 @@ class AbsensiController extends BaseController
             'user_id' => 'required|exists:users,id',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
         $input = $request->all();
 
         $flag = Absens::select('*')
-        ->where('user_id', '=', $input['user_id'])
-        ->where('shift_id', '=', $input['shift_id'])
-        ->where(DB::raw("CAST('".Carbon::today()->toDateString()."' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
-        ->count();
+            ->where('user_id', '=', $input['user_id'])
+            ->where('shift_id', '=', $input['shift_id'])
+            ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'));
 
-        if ($flag > 0) {
-            return $this->sendResponse([],'User Already Initiate Absens');
+
+        if ($flag->count() > 0) {
+            if ($flag->get()[0]['check_out']!= NULL) {
+                return $this->sendResponse([], 'User Already Checkout');
+            }else {
+                return $this->sendResponse([], 'User Already Initiate Absens');
+            }
         }
         $user = Absens::create($input);
-        return $this->sendResponse([$user],'User check-in successfully.');
+        return $this->sendResponse([$user], 'User check-in successfully.');
     }
 
     /**
@@ -96,7 +100,19 @@ class AbsensiController extends BaseController
      */
     public function update(Request $request, Shifts $shifts)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'absens_id' => 'required|exists:absens,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $input = $request->all();
+        $absens = Absens::find($input['absens_id']);
+        $absens->check_out = Carbon::now();
+        $absens->save();
+        return $this->sendResponse([$absens], 'User check-out successfully.');
     }
 
     /**
