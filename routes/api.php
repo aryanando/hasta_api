@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
 use Illuminate\Http\Request;
@@ -45,6 +46,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('absensi-token', [AbsensiTokenController::class, 'index'] )->middleware('auth:api');
     Route::post('absensi-token', [AbsensiTokenController::class, 'store'] )->middleware('auth:api');
 
+    // Absensi Management
+    Route::get('absensi-karyawan', [ManagementAbsensiController::class, 'index'] )->middleware('auth:api');
 });
 
 

@@ -47,7 +47,7 @@ class AbsensiController extends BaseController
 
             return response()->json([
                 'success' => true,
-                'message' => 'Login successfully',
+                'message' => 'Get Absensi Sucessfull',
                 'data' => $data,
             ], 200);
         }
