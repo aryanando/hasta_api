@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Roles;
 use App\Models\Unit_translations;
 use App\Models\User;
+use App\Models\User_details;
 use App\Models\User_roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,9 @@ class AuthenticationController extends Controller
     {
         if (Auth::user()) {
             $user = Auth::user();
+            $user['details'] = User_details::select('*')
+            ->where('user_details.user_id', '=', $user['id'])
+            ->get();
             $user['role'] = Roles::select('*')
             ->join('user_roles', 'roles.id', '=', 'user_roles.role_id')
             ->join('role_translations', 'role_translations.role_id', '=', 'roles.id')
