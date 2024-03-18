@@ -31,20 +31,20 @@ class UserDemoSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
-            [
-                'name' => 'Eko Ari',
-                'email' => 'eko@app.com',
-                'password' => bcrypt('password'),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'name' => 'Nando',
-                'email' => 'nando@app.com',
-                'password' => bcrypt('password'),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]
+            // [
+            //     'name' => 'Eko Ari',
+            //     'email' => 'eko@app.com',
+            //     'password' => bcrypt('password'),
+            //     'created_at' => date('Y-m-d H:i:s'),
+            //     'updated_at' => date('Y-m-d H:i:s'),
+            // ],
+            // [
+            //     'name' => 'Nando',
+            //     'email' => 'nando@app.com',
+            //     'password' => bcrypt('password'),
+            //     'created_at' => date('Y-m-d H:i:s'),
+            //     'updated_at' => date('Y-m-d H:i:s'),
+            // ]
 
         ]);
     }
