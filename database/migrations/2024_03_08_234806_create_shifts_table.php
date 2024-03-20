@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
+            $table->text('shift_name');
             $table->time('check_in');
             $table->time('check_out');
             $table->boolean('next_day');
+            $table->bigInteger('unit_id')->nullable()->unsigned();
+            $table->foreign('unit_id')->references('id')->on('unit_translations');
             $table->timestamps();
         });
     }
