@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
+use App\Http\Controllers\Api\UnitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,11 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Shift
     Route::get('shift', [ShiftController::class, 'index'] )->middleware('auth:api');
     Route::post('shift', [ShiftController::class, 'store'] )->middleware('auth:api');
+
+    // Unit
+    Route::get('unit', [UnitController::class, 'index'] )->middleware('auth:api');
+    Route::get('unit/{id}', [UnitController::class, 'show'] )->middleware('auth:api');
+    Route::post('unit', [UnitController::class, 'store'] )->middleware('auth:api');
 });
 
 
