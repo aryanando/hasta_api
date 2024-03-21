@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Unit_translations;
 use App\Models\User;
+use App\Models\User_shifts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UnitController extends Controller
 {
@@ -32,6 +34,24 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'unit_id' => 'required|exists:unit_translations,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Shift create failed.',
+            ], 400);
+        }
+        $input = $request->all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Shift created successfully.',
+            'data' => User_shifts::create($input),
+        ], 200);
     }
 
     /**
