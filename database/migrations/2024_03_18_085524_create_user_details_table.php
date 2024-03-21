@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->text('nik')->unique()->nullable();
             $table->text('tlp')->nullable();
+            $table->text('user_device_id')->nullable()->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
