@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable()->unsigned();
-            $table->text('nik')->unique()->nullable();
+            $table->string('nik', 64)->unique()->nullable();
             $table->text('tlp')->nullable();
-            $table->text('user_device_id')->nullable()->unique();
+            $table->string('user_device_id', 64)->nullable()->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

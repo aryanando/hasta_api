@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\UnitController;
+use App\Http\Controllers\KaryawanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Absensi Management
     Route::get('absensi-karyawan', [ManagementAbsensiController::class, 'index'] )->middleware('auth:api');
+
+    // Karyawan
+    Route::get('karyawan', [KaryawanController::class, 'index'] )->middleware('auth:api');
 
     // Shift
     Route::get('shift', [ShiftController::class, 'index'] )->middleware('auth:api');
