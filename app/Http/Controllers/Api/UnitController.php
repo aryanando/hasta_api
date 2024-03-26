@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Unit_translations;
 use App\Models\User;
 use App\Models\User_shifts;
+use App\Models\user_units;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,15 +43,15 @@ class UnitController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Shift create failed.',
+                'message' => 'Unit member create failed.'.$validator->errors()->first(),
             ], 400);
         }
         $input = $request->all();
 
         return response()->json([
             'success' => true,
-            'message' => 'Shift created successfully.',
-            'data' => User_shifts::create($input),
+            'message' => 'Unit member created successfully.',
+            'data' => user_units::create($input),
         ], 200);
     }
 
