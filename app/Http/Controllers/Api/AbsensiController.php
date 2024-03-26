@@ -19,24 +19,35 @@ class AbsensiController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($month = null)
     {
         //
         if (Auth::user()) {
             $user = Auth::user();
             $dataAbsensi = new Shifts();
-
             $data = array();
+            if ($month != NULL) {
+                $data['shift_bulan_ini'] = $dataAbsensi->select('*')
+                    ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
+                    ->where('user_shifts.user_id', '=', $user['id'])
+                    ->where(DB::raw("month('2024-".$month."-1')"), '=', DB::raw('month(user_shifts.valid_date_start)'))
+                    // ->where(DB::raw("month('" . Carbon::today()->toDateString() . "'"), '=', DB::raw('month(user_shifts.valid_date_end)'))
+                    ->get();
 
-
-            $data['shift_hari_ini'] = $dataAbsensi->select('*')
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Get Absensi Sucessfull',
+                    'data' => $data,
+                ], 200);
+            } else {
+                $data['shift_hari_ini'] = $dataAbsensi->select('*')
                 ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                 ->where('user_shifts.user_id', '=', $user['id'])
                 ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
                 ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
                 ->get();
 
-            $data['absensi_hari_ini'] = $dataAbsensi->select('*')
+                $data['absensi_hari_ini'] = $dataAbsensi->select('*')
                 ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                 ->join('absens', 'absens.shift_id', '=', 'shifts.id')
                 ->where('user_shifts.user_id', '=', $user['id'])
@@ -45,11 +56,12 @@ class AbsensiController extends BaseController
                 ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
                 ->get();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Get Absensi Sucessfull',
-                'data' => $data,
-            ], 200);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Get Absensi Sucessfull',
+                    'data' => $data,
+                ], 200);
+            }
         }
     }
 
@@ -60,10 +72,10 @@ class AbsensiController extends BaseController
     {
         //
         $get_token = AbsenTokens::select('*')
-        ->where('token', '=', $token)
-        ->where('used_for', '=', NULL)
-        ->where('user_id', '=', NULL)
-        ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
+            ->where('token', '=', $token)
+            ->where('used_for', '=', NULL)
+            ->where('user_id', '=', NULL)
+            ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
         if ($get_token->count() == 0) {
             return $this->sendError('Validation Error.', 'Token tidak tikenali atau kadaluarsa');
         }
@@ -115,10 +127,10 @@ class AbsensiController extends BaseController
     public function update(Request $request, Shifts $shifts, $token = NULL)
     {
         $get_token = AbsenTokens::select('*')
-        ->where('token', '=', $token)
-        ->where('used_for', '=', NULL)
-        ->where('user_id', '=', NULL)
-        ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
+            ->where('token', '=', $token)
+            ->where('used_for', '=', NULL)
+            ->where('user_id', '=', NULL)
+            ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(created_at AS DATE)'));
         if ($get_token->count() == 0) {
             return $this->sendError('Validation Error.', 'Token tidak tikenali atau kadaluarsa');
         }
