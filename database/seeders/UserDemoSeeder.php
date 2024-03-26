@@ -24,13 +24,7 @@ class UserDemoSeeder extends Seeder
 
         DB::table('users')->insert([
 
-            [
-                'name' => 'Administrator',
-                'email' => 'admin@app.com',
-                'password' => bcrypt('password'),
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
+            ['name' => 'Administrator', 'email' => 'admin@app.com', 'password' => bcrypt('password'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),],
             ['name' => 'dr. RAKKA DWIMAREFFY HAROLDIWULAN', 'email' => '20199112082-RAKA@mail.test', 'password' => bcrypt('password'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),],
             ['name' => 'drg. HENDRA PUTRA SETYAWAN', 'email' => 'drg.setyawan@gmail.com', 'password' => bcrypt('password'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),],
             ['name' => 'dr. AGENG BAGUS SADEWO', 'email' => '20239709061-AGENG@mail.test', 'password' => bcrypt('password'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'),],
