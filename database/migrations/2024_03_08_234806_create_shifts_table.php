@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('shift_name');
             $table->time('check_in');
             $table->time('check_out');
+            $table->text('color');
             $table->boolean('next_day');
             $table->bigInteger('unit_id')->nullable()->unsigned();
             $table->foreign('unit_id')->references('id')->on('unit_translations');

@@ -33,6 +33,7 @@ class ShiftController extends Controller
             'shift_name' => 'required',
             'check_in' => 'required',
             'check_out' => 'required',
+            'color' => 'required',
             'next_day' => 'required',
             'unit_id' => 'required|exists:unit_translations,id',
         ]);

@@ -14,6 +14,7 @@ class Shifts extends Model
         'check_in',
         'check_out',
         'next_day',
+        'color',
         'unit_id',
     ];
 }
