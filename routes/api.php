@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\UnitController;
+use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Shift
     Route::get('shift', [ShiftController::class, 'index'] )->middleware('auth:api');
     Route::post('shift', [ShiftController::class, 'store'] )->middleware('auth:api');
+
+    // User Shift
+    Route::get('shift-user/{unit}/{month}', [UserShiftController::class, 'index'] )->middleware('auth:api'); // Unit
+    Route::post('shift-user', [UserShiftController::class, 'store'] )->middleware('auth:api'); // Per User
 
     // Unit
     Route::get('unit', [UnitController::class, 'index'] )->middleware('auth:api');

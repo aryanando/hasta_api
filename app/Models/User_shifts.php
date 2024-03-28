@@ -11,6 +11,8 @@ class User_shifts extends Model
 
     protected $fillable = [
         'user_id',
-        'unit_id',
+        'shift_id',
+        'valid_date_start',
+        'valid_date_end'
     ];
 }

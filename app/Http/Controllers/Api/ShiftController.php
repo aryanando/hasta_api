@@ -18,7 +18,7 @@ class ShiftController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Get Absensi Sucessfull',
+            'message' => 'Get Shift Sucessfull',
             'data' => $data,
         ], 200);
     }
