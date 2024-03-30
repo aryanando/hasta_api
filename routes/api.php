@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\Api\AbsensiController;
-use App\Http\Controllers\Api\AbsensiTokenController;
-use App\Http\Controllers\Api\AuthenticationController;
-use App\Http\Controllers\Api\ManagementAbsensiController;
-use App\Http\Controllers\Api\RanapController;
+use App\Http\Controllers\API\AbsensiController;
+use App\Http\Controllers\API\AbsensiTokenController;
+use App\Http\Controllers\API\AuthenticationController;
+use App\Http\Controllers\API\ManagementAbsensiController;
+use App\Http\Controllers\API\RanapController;
 use App\Http\Controllers\API\RegisterController;
-use App\Http\Controllers\Api\ShiftController;
-use App\Http\Controllers\Api\UnitController;
-use App\Http\Controllers\Api\UserShiftController;
+use App\Http\Controllers\API\ShiftController;
+use App\Http\Controllers\API\UnitController;
+use App\Http\Controllers\API\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
