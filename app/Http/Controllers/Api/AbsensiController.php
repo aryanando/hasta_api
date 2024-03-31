@@ -52,8 +52,8 @@ class AbsensiController extends BaseController
                     ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                     ->join('absens', 'absens.shift_id', '=', 'shifts.id')
                     ->where('user_shifts.user_id', '=', $user['id'])
-                    // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
-                    // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
+                    ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
+                    ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
                     // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
                     ->get();
                 }else{
@@ -61,9 +61,9 @@ class AbsensiController extends BaseController
                     ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                     ->join('absens', 'absens.shift_id', '=', 'shifts.id')
                     ->where('user_shifts.user_id', '=', $user['id'])
-                    // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
-                    // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
-                    // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
+                    ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
+                    ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
+                    ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
                     ->get();
                 }
 
