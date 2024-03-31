@@ -56,6 +56,7 @@ class AbsensiController extends BaseController
                     ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
                     ->where(DB::raw('CAST(absens.created_at AS DATE)'), '>=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
                     ->where(DB::raw('CAST(absens.created_at AS DATE)'), '<=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
+                    ->where('absens.check_out', '=', NULL)
                     // ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
                     ->get();
                 }else{
