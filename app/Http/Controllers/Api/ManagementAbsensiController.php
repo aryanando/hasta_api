@@ -22,7 +22,7 @@ class ManagementAbsensiController extends BaseController
         $dataAbsensi = new Absens();
 
         $data = array();
-        $data['absensi_hari_ini'] = $dataAbsensi->select('absens.id as absen_id', 'absens.check_in as absen_check_in', 'absens.check_out as absen_check_out', 'shifts.check_in as shift_check_in', 'shifts.check_out as shift_check_out', 'shifts.next_day', 'users.id as user_id', 'users.name as user_name', 'shifts.check_in as shift_checkin', 'shifts.check_out as shift_checkout')
+        $data['absensi_hari_ini'] = $dataAbsensi->select('absens.id as absen_id', 'absens.check_in as absen_check_in', 'absens.check_out as absen_check_out', 'shifts.check_in as shift_check_in', 'shifts.check_out as shift_check_out', 'shifts.next_day', 'users.id as user_id', 'users.name as user_name')
             ->join('users', 'users.id', '=', 'absens.user_id')
             ->join('shifts', 'shifts.id', '=', 'absens.shift_id')
             ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
