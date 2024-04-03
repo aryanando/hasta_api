@@ -53,7 +53,7 @@ class UserShiftController extends Controller
 
                 foreach ($userShift as $userShiftData) {
                     $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')] = $userShiftData;
-                    $data['user-shift'][Carbon::parse($userShiftData['valid_date_start'])->format('d')]['absensi'] = Absens::select('*')
+                    $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')]['absensi'] = Absens::select('*')
                     ->where('absens.shift_id', '=', $userShiftData['shift_id'])
                     ->where('absens.user_id', '=', $userShiftData['user_id'])
                     ->where(DB::raw("CAST('" . $userShiftData['valid_date_start'] . "' AS DATE)"), '=', DB::raw('CAST(absens.check_in AS DATE)'))
