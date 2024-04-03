@@ -20,7 +20,7 @@ class ManagementAbsensiController extends BaseController
         $dataAbsensi = new Shifts();
 
         $data = array();
-        $data['absensi_hari_ini'] = $dataAbsensi->select('*')
+        $data['absensi_hari_ini'] = $dataAbsensi->select('absens.id as absen_id', 'absens.check_in as absen_check_in', 'absens.check_out as absen_check_out', 'shifts.check_in as shift_check_in', 'shifts.check_out as shift_check_out', 'shifts.next_day', 'users.id as user_id', 'users.name as user_name')
             ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
             ->join('absens', 'absens.shift_id', '=', 'shifts.id')
             ->join('users', 'users.id', '=', 'absens.user_id')
