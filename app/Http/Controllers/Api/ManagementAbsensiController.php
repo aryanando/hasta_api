@@ -26,7 +26,7 @@ class ManagementAbsensiController extends BaseController
             ->join('users', 'users.id', '=', 'absens.user_id')
             ->join('shifts', 'shifts.id', '=', 'absens.shift_id')
             ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('absens.updated_at', 'desc')
             ->get();
 
         return response()->json([
