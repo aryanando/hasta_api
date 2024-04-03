@@ -25,6 +25,8 @@ class ManagementAbsensiController extends BaseController
             ->join('absens', 'absens.shift_id', '=', 'shifts.id')
             ->join('users', 'users.id', '=', 'absens.user_id')
             ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
+            ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(user_shifts.valid_date_start AS DATE)'))
+            ->orWhere(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(user_shifts.valid_date_end AS DATE)'))
             ->get();
 
         return response()->json([
