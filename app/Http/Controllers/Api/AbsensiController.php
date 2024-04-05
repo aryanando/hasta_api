@@ -120,6 +120,7 @@ class AbsensiController extends BaseController
         $validator = Validator::make($request->all(), [
             'shift_id' => 'required|exists:shifts,id',
             'user_id' => 'required|exists:users,id',
+            'user_shift_id' => 'required|exists:user_shifts,id',
         ]);
 
         if ($validator->fails()) {

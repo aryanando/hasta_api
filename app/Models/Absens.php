@@ -14,5 +14,6 @@ class Absens extends Model
         'user_id',
         'check_in',
         'check_out',
+        'user_shift_id',
     ];
 }
