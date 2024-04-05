@@ -25,6 +25,7 @@ class ManagementAbsensiController extends BaseController
         $data['absensi_hari_ini'] = $dataAbsensi->select('absens.id as absen_id', 'absens.check_in as absen_check_in', 'absens.check_out as absen_check_out', 'shifts.check_in as shift_check_in', 'shifts.check_out as shift_check_out', 'shifts.next_day', 'users.id as user_id', 'users.name as user_name')
             ->join('users', 'users.id', '=', 'absens.user_id')
             ->join('shifts', 'shifts.id', '=', 'absens.shift_id')
+            ->join('user_shifts', 'user_shifts.id', '=', 'absens.user_shift_id')
             ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
             ->orderBy('absens.updated_at', 'desc')
             ->get();
