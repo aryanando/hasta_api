@@ -17,7 +17,9 @@ return new class extends Migration
             $table->dateTime('check_out')->nullable()->default(NULL);
             $table->bigInteger('shift_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('user_shift_id')->unsigned()->nullable()->default(NULL);
             $table->foreign('shift_id')->references('id')->on('shifts');
+            $table->foreign('user_shift_id')->references('id')->on('user_shifts');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
