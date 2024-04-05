@@ -74,7 +74,9 @@ class AbsensiController extends BaseController
                             ->get();
                         }
                     }else{
-                        $data['absensi_hari_ini'] = $dataAbsensi->select('*')
+                        $data['absensi_hari_ini'] = $dataAbsensi->select(
+                            'shifts.id', 'shifts.shift_name', 'shifts.check_in', 'shifts.check_out', 'shifts.color', 'shifts.next_day', 'shifts.unit_id', 'user_shifts.valid_date_start', 'user_shifts.valid_date_end', 'user_shifts.user_id', 'user_shifts.shift_id', 'user_shifts.update_shift_id', 'user_shifts.id as user_shifts_id'
+                        )
                         ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                         ->join('absens', 'absens.shift_id', '=', 'shifts.id')
                         ->where('user_shifts.user_id', '=', $user['id'])
