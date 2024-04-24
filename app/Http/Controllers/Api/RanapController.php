@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\RanapModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class RanapController extends BaseController
 {
@@ -12,8 +13,12 @@ class RanapController extends BaseController
      */
     public function index()
     {
-        $data = new RanapModel();
-        $dataRanap = $data->getDataRanap();
+        // $data = new RanapModel();
+        // $dataRanap = $data->getDataRanap();
+
+        $response = Http::acceptJson()
+            ->get('https://webapp.batubhayangkara.com/laporan/api/ranap.php');
+        $dataRanap = (json_decode($response->body())->data);
         if ($dataRanap) {
             return response()->json([
                 'success' => true,
