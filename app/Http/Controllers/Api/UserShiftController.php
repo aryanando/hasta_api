@@ -147,7 +147,7 @@ class UserShiftController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'User Shift delete failed.',
+                'message' => 'User Shift delete failed. Validation Fail',
             ], 400);
         }
         $input = $request->all();
