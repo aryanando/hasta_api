@@ -44,7 +44,8 @@ class UserShiftController extends Controller
                 'user_shifts.user_id as user_id',
                 'user_shifts.valid_date_start as valid_date_start',
                 'user_shifts.valid_date_end as valid_date_end',
-                'shifts.check_in as shift_checkin', 'shifts.check_out as shift_checkout'
+                'shifts.check_in as shift_checkin',
+                'shifts.check_out as shift_checkout'
             )
                 ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                 ->join('users', 'users.id', '=', 'user_shifts.user_id')
@@ -52,14 +53,14 @@ class UserShiftController extends Controller
                 ->where(DB::raw('month(user_shifts.valid_date_start)'), '=', $unitOrmonth)
                 ->get();
 
-                foreach ($userShift as $userShiftData) {
-                    $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')] = $userShiftData;
-                    $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')]['absensi'] = Absens::select('*')
+            foreach ($userShift as $userShiftData) {
+                $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')] = $userShiftData;
+                $data['user-shift'][ltrim(Carbon::parse($userShiftData['valid_date_start'])->format('d'), '0')]['absensi'] = Absens::select('*')
                     ->where('absens.shift_id', '=', $userShiftData['shift_id'])
                     ->where('absens.user_id', '=', $userShiftData['user_id'])
                     ->where(DB::raw("CAST('" . $userShiftData['valid_date_start'] . "' AS DATE)"), '=', DB::raw('CAST(absens.check_in AS DATE)'))
                     ->get();
-                }
+            }
         }
 
         return response()->json([
@@ -81,8 +82,6 @@ class UserShiftController extends Controller
             'shift_id' => 'required|exists:shifts,id',
         ]);
 
-
-
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -92,6 +91,17 @@ class UserShiftController extends Controller
         $input = $request->all();
 
         if ($input['last_shift_id'] !== 'NULL') {
+            $new_date_end = $input['valid_date_end'];
+            if ($dataShift = Shifts::find($input['last_shift_id'])) {
+                // dd($dataShift->next_day);
+                if ($dataShift->next_day == 0) {
+                    $new_date_end = $input['valid_date_start'];
+                    // dd($new_date_end);
+                }else{
+                    $new_date_end = $input['valid_date_end'];
+                }
+            }
+            // dd($new_date_end);
             $input2 = $input;
             $input2['shift_id'] = $input['last_shift_id'];
             unset($input2['last_shift_id']);
@@ -100,7 +110,8 @@ class UserShiftController extends Controller
                 ->where('user_id', $input['user_id'])
                 ->where('valid_date_end', $input['valid_date_end'])
                 ->where('valid_date_start', $input['valid_date_start'])
-                ->update(['shift_id' => $input2['shift_id']]);
+                ->update(['shift_id' => $input2['shift_id'], 'valid_date_end' => $new_date_end]);
+                dd($result['data']);
             $result['shift_data'] = Shifts::find($input2['shift_id']);
         } else {
             $result = User_shifts::create($input);
