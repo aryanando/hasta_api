@@ -93,15 +93,12 @@ class UserShiftController extends Controller
         if ($input['last_shift_id'] !== 'NULL') {
             $new_date_end = $input['valid_date_end'];
             if ($dataShift = Shifts::find($input['last_shift_id'])) {
-                // dd($dataShift->next_day);
                 if ($dataShift->next_day == 0) {
                     $new_date_end = $input['valid_date_start'];
-                    // dd($new_date_end);
-                }else{
-                    $new_date_end = $input['valid_date_end'];
+                } else {
+                    $new_date_end = date('Y-m-d', strtotime($input['valid_date_start']. ' + 1 days'));
                 }
             }
-            // dd($new_date_end);
             $input2 = $input;
             $input2['shift_id'] = $input['last_shift_id'];
             unset($input2['last_shift_id']);
@@ -111,7 +108,6 @@ class UserShiftController extends Controller
                 ->where('valid_date_end', $input['valid_date_end'])
                 ->where('valid_date_start', $input['valid_date_start'])
                 ->update(['shift_id' => $input2['shift_id'], 'valid_date_end' => $new_date_end]);
-                dd($result['data']);
             $result['shift_data'] = Shifts::find($input2['shift_id']);
         } else {
             $result = User_shifts::create($input);
