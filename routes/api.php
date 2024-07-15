@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
@@ -71,6 +72,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('unit', [UnitController::class, 'index'] )->middleware('auth:api');
     Route::get('unit/{id}', [UnitController::class, 'show'] )->middleware('auth:api');
     Route::post('unit', [UnitController::class, 'store'] )->middleware('auth:api');
+
+    // Slip
+    Route::post('slip', [KeuanganController::class, 'store'] )->middleware('auth:api');
 });
 
 
