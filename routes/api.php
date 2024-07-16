@@ -75,6 +75,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Slip
     Route::post('slip', [KeuanganController::class, 'store'] )->middleware('auth:api');
+    Route::get('slip/{id}', [KeuanganController::class, 'show'] )->middleware('auth:api');
 });
 
 

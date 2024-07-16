@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Salary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KeuanganController extends Controller
 {
@@ -23,7 +24,7 @@ class KeuanganController extends Controller
     {
         $input = $request->all();
         $data = ($input['data']);
-        
+
         $result = Salary::insert($data);
         return response()->json([
             'success' => true,
@@ -37,7 +38,13 @@ class KeuanganController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
+        $result = Salary::where('user_id', Auth::id())->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Salary get successfully.',
+            'data' => $result,
+        ], 200);
     }
 
     /**
