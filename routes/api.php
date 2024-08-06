@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
+use App\Http\Controllers\Api\PengumumanController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
@@ -76,6 +77,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Slip
     Route::post('slip', [KeuanganController::class, 'store'] )->middleware('auth:api');
     Route::get('slip/{id}', [KeuanganController::class, 'show'] )->middleware('auth:api');
+
+    // Pengumuman
+    Route::get('pengumuman', [PengumumanController::class, 'index'] )->middleware('auth:api');
 });
 
 
