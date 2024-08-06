@@ -48,13 +48,23 @@ class AbsensiController extends BaseController
                     ->where('valid_date_start', '=', date_format($yesterday, "Ymd"))
                     ->get();
                 if (count($dataYes)>0) {
+                    $dataYes = $dataYes[0];
                     if ($dataYes->shifts['next_day'] == 1 and $dataYes['check_out'] == NULL) {
                         return response()->json([
                             'success' => true,
                             'message' => 'Get Absensi Sucessfull',
                             'data' => $dataYes,
                         ], 200);
-                    } 
+                    } else {
+                        $data = User_shifts::where('user_id', '=', $user->id)
+                            ->where('valid_date_start', '=', date('Ymd'))
+                            ->get()[0];
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Get Absensi Sucessfull',
+                            'data' => $data,
+                        ], 200);
+                    }
                 }
                 else {
                     $data = User_shifts::where('user_id', '=', $user->id)
