@@ -45,17 +45,20 @@ class AbsensiController extends BaseController
                 $yesterday = date_create(date('Y-m-d'));
                 date_modify($yesterday, "-1 days");
                 $dataYes = User_shifts::where('user_id', '=', $user->id)
-                    ->where('valid_date_start', '=', date_format($yesterday, "Y-m-d"))
-                    ->get()[0];
-                if ($dataYes->shifts['next_day'] == 1 and $dataYes['check_out'] == NULL) {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Get Absensi Sucessfull',
-                        'data' => $dataYes,
-                    ], 200);
-                } else {
+                    ->where('valid_date_start', '=', date_format($yesterday, "Ymd"))
+                    ->get();
+                if (count($dataYes)>0) {
+                    if ($dataYes->shifts['next_day'] == 1 and $dataYes['check_out'] == NULL) {
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Get Absensi Sucessfull',
+                            'data' => $dataYes,
+                        ], 200);
+                    } 
+                }
+                else {
                     $data = User_shifts::where('user_id', '=', $user->id)
-                        ->where('valid_date_start', '=', date('Y-m-d'))
+                        ->where('valid_date_start', '=', date('Ymd'))
                         ->get()[0];
                     return response()->json([
                         'success' => true,
