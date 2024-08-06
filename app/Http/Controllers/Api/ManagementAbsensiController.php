@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Absens;
 use App\Models\Shifts;
+use App\Models\User_shifts;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +23,10 @@ class ManagementAbsensiController extends BaseController
         $dataAbsensi = new Absens();
 
         $data = array();
-        $data['absensi_hari_ini'] = $dataAbsensi->select('absens.id as absen_id', 'absens.check_in as absen_check_in', 'absens.check_out as absen_check_out', 'shifts.check_in as shift_check_in', 'shifts.check_out as shift_check_out', 'shifts.next_day', 'users.id as user_id', 'users.name as user_name', 'user_shifts.valid_date_start', 'user_shifts.valid_date_end')
-            ->join('users', 'users.id', '=', 'absens.user_id')
-            ->join('shifts', 'shifts.id', '=', 'absens.shift_id')
-            ->join('user_shifts', 'user_shifts.id', '=', 'absens.user_shift_id')
-            ->where(DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"), '=', DB::raw('CAST(absens.created_at AS DATE)'))
-            ->orderBy('absens.updated_at', 'desc')
+        $data['absensi_hari_ini'] = User_shifts::where(DB::raw('CAST(user_shifts.check_in AS DATE)'), '=', DB::raw("CAST('" . Carbon::today()->toDateString() . "' AS DATE)"))
+            ->with('users')
+            ->with('shifts')
+            ->orderBy('user_shifts.updated_at', 'desc')
             ->get();
 
         return response()->json([
