@@ -99,7 +99,7 @@ return [
             'host'      => '103.76.149.29',
             'database'  => 'simsvbaru',
             'username'  => 'web_hasta',
-            'password'  => '@Admin123/',
+            'password'  => env('DB_PASSWORD_2', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

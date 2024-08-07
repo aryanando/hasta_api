@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\DokterController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\PengumumanController;
@@ -80,6 +81,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Pengumuman
     Route::get('pengumuman', [PengumumanController::class, 'index'] )->middleware('auth:api');
+    
+    // Dokter
+    Route::get('dokter', [DokterController::class, 'index'] )->middleware('auth:api');
 });
 
 
