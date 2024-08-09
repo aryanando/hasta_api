@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\DokterController;
 use App\Http\Controllers\Api\KeuanganController;
+use App\Http\Controllers\Api\KlaimRujukanController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\PengumumanController;
 use App\Http\Controllers\Api\RanapController;
@@ -84,6 +85,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     
     // Dokter
     Route::get('dokter', [DokterController::class, 'index'] )->middleware('auth:api');
+
+    // Klaim Rujukan
+    Route::get('rujukan', [KlaimRujukanController::class, 'index'] )->middleware('auth:api');
 });
 
 
