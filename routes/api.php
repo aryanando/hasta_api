@@ -82,12 +82,13 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Pengumuman
     Route::get('pengumuman', [PengumumanController::class, 'index'] )->middleware('auth:api');
-    
+
     // Dokter
     Route::get('dokter', [DokterController::class, 'index'] )->middleware('auth:api');
 
     // Klaim Rujukan
     Route::get('rujukan', [KlaimRujukanController::class, 'index'] )->middleware('auth:api');
+    Route::get('rujukan-data', [KlaimRujukanController::class, 'getDataRujukan'] )->middleware('auth:api');
 });
 
 
