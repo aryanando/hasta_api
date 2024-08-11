@@ -22,10 +22,29 @@ class KlaimRujukanController extends Controller
         ], 200);
     }
 
+    function show($id) {
+        $data = KlaimRujukan::where('id', '=', $id)->with(['petugasPendaftaran', 'petugasKasir','perujukBlu'])->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Absensi Sucessfull',
+            'data' => $data[0],
+        ], 200);
+    }
     function getDataRujukan() {
-        $data = RujukMasuk::with('registrasi')->orderBy('no_rawat', 'DESC')
+        $data = RujukMasuk::with('registrasi.pasien')->orderBy('no_rawat', 'DESC')
         ->skip(0)->take(50)->get();
 
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Absensi Sucessfull',
+            'data' => $data,
+        ], 200);
+    }
+
+    function store(Request $request) {
+        $input = $request->post();
+        $data = KlaimRujukan::create($input);
         return response()->json([
             'success' => true,
             'message' => 'Get Absensi Sucessfull',

@@ -19,4 +19,8 @@ class RegistrasiPeriksa extends Model
     function perujuk() : HasOne {
         return $this->hasOne(RujukMasuk::class, 'no_rawat', 'no_rawat');
     }
+
+    function pasien() : HasOne {
+        return $this->hasOne(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
 }
