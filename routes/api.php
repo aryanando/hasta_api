@@ -90,6 +90,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('rujukan', [KlaimRujukanController::class, 'index'] )->middleware('auth:api');
     Route::get('rujukan/{id}', [KlaimRujukanController::class, 'show'] )->middleware('auth:api');
     Route::post('rujukan', [KlaimRujukanController::class, 'store'] )->middleware('auth:api');
+    Route::put('rujukan/{id}', [KlaimRujukanController::class, 'update'] )->middleware('auth:api');
     Route::get('rujukan-data', [KlaimRujukanController::class, 'getDataRujukan'] )->middleware('auth:api');
 });
 
