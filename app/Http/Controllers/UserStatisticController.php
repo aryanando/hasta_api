@@ -24,12 +24,22 @@ class UserStatisticController extends Controller
             ->get();
 
         $now = Carbon::now();
-        $currentMonth = User_shifts::where('user_id', '=', Auth::id())
-            ->whereYear('valid_date_start', '=', $now->format('Y'))
-            ->whereMonth('valid_date_start', '=', $now->format('m'))
-            ->whereDay('valid_date_start', '<', $now->format('d'))
-            ->with('shifts')
-            ->get();
+        if ($now->format('m') == '8') {
+            $currentMonth = User_shifts::where('user_id', '=', Auth::id())
+                ->whereYear('valid_date_start', '=', $now->format('Y'))
+                ->whereMonth('valid_date_start', '=', $now->format('m'))
+                ->whereDay('valid_date_start', '<', $now->format('d'))
+                ->with('shifts')
+                ->get();
+        } else {
+            $currentMonth = User_shifts::where('user_id', '=', Auth::id())
+                ->whereYear('valid_date_start', '=', $now->format('Y'))
+                ->whereMonth('valid_date_start', '=', $now->format('m'))
+                ->whereDay('valid_date_start', '<', $now->format('d'))
+                ->whereDay('valid_date_start', '>', '5')
+                ->with('shifts')
+                ->get();
+        }
 
         $lastMonth = User_shifts::where('user_id', '=', Auth::id())
             ->whereYear('valid_date_start', '=', $now->format('Y'))
@@ -70,9 +80,9 @@ class UserStatisticController extends Controller
                 if ($batasMasuk->gt($masuk)) {
                     $totalRating += 5;
                 } else {
-                    if ($masuk->diffInMinutes($batasMasuk) < 50 AND $masuk->diffInMinutes($batasMasuk) > 0) {
+                    if ($masuk->diffInMinutes($batasMasuk) < 50 and $masuk->diffInMinutes($batasMasuk) > 0) {
                         $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
-                    }elseif($masuk->diffInMinutes($batasMasuk) <= 0){
+                    } elseif ($masuk->diffInMinutes($batasMasuk) <= 0) {
                         $totalRating += 5;
                     }
                     if ($masuk->diffInMinutes($batasMasuk) > 10) {
