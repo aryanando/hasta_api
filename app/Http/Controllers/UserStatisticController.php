@@ -70,7 +70,9 @@ class UserStatisticController extends Controller
                 if ($batasMasuk->gt($masuk)) {
                     $totalRating += 5;
                 } else {
-                    $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
+                    if ($masuk->diffInMinutes($batasMasuk) < 50) {
+                        $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
+                    }
                     $jumlahTerlambat += 1;
                 }
             }
