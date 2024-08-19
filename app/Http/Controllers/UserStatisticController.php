@@ -24,11 +24,12 @@ class UserStatisticController extends Controller
             ->get();
 
         $now = Carbon::now();
-        if ($now->format('m') == '8') {
+        if ($now->format('m') == '08') {
             $currentMonth = User_shifts::where('user_id', '=', Auth::id())
                 ->whereYear('valid_date_start', '=', $now->format('Y'))
                 ->whereMonth('valid_date_start', '=', $now->format('m'))
                 ->whereDay('valid_date_start', '<', $now->format('d'))
+                ->whereDay('valid_date_start', '>', '05')
                 ->with('shifts')
                 ->get();
         } else {
@@ -36,7 +37,6 @@ class UserStatisticController extends Controller
                 ->whereYear('valid_date_start', '=', $now->format('Y'))
                 ->whereMonth('valid_date_start', '=', $now->format('m'))
                 ->whereDay('valid_date_start', '<', $now->format('d'))
-                ->whereDay('valid_date_start', '>', '5')
                 ->with('shifts')
                 ->get();
         }
