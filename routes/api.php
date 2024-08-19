@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\UserStatisticController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +93,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('rujukan', [KlaimRujukanController::class, 'store'] )->middleware('auth:api');
     Route::put('rujukan/{id}', [KlaimRujukanController::class, 'update'] )->middleware('auth:api');
     Route::get('rujukan-data', [KlaimRujukanController::class, 'getDataRujukan'] )->middleware('auth:api');
+    
+    // User Statistic
+    Route::get('user-statistic', [UserStatisticController::class, 'show'] )->middleware('auth:api');
+
 });
 
 
