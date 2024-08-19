@@ -67,7 +67,7 @@ class UserStatisticController extends Controller
             } else {
                 $masuk = new Carbon($userCheckIn->format('h:i:s'));
                 $batasMasuk = new Carbon($checkIn->format('h:i:s'));
-                if ($masuk->gt($batasMasuk)) {
+                if ($batasMasuk->gt($masuk)) {
                     $totalRating += 5;
                 } else {
                     $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
