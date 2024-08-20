@@ -49,6 +49,10 @@ class KlaimRujukanController extends Controller
     function store(Request $request)
     {
         $input = $request->post();
+
+        if ($input['perujuk_id'] == 'null') {
+            unset($input['perujuk_id']);
+        }
         $data = KlaimRujukan::create($input);
         return response()->json([
             'success' => true,
