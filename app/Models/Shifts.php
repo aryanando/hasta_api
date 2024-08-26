@@ -5,18 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shifts extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'shift_name',
-        'check_in',
-        'check_out',
-        'next_day',
-        'color',
-        'unit_id',
+    protected $guarded = [
+        'id'
     ];
 
     function userShifts() : HasMany {

@@ -21,7 +21,7 @@ class UserShiftController extends Controller
     {
         //
         if ($unitOrmonth !== NULL and $month !== NULL) {
-            $data['shift'] = Shifts::select(
+            $data['shift'] = Shifts::withTrashed()->select(
                 'shifts.id as shift_id',
                 'shifts.color as shift_color',
                 'shifts.shift_name as shift_name',

@@ -65,6 +65,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Shift
     Route::get('shift', [ShiftController::class, 'index'] )->middleware('auth:api');
     Route::post('shift', [ShiftController::class, 'store'] )->middleware('auth:api');
+    Route::delete('shift/{id}', [ShiftController::class, 'delete'] )->middleware('auth:api');
 
     // User Shift
     Route::get('shift-user/{unitOrMonth}/{month}', [UserShiftController::class, 'index'] )->middleware('auth:api'); // Unit

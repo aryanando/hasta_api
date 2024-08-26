@@ -14,7 +14,7 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        $data['shift'] = Shifts::select('*')->get();
+        $data['shift'] = Shifts::withTrashed()->get();
 
         return response()->json([
             'success' => true,
@@ -75,5 +75,15 @@ class ShiftController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function delete(string $id) {
+        $data  = Shifts::find($id)->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Shift delete successfully.',
+            'data' => $data,
+        ], 200);
     }
 }
