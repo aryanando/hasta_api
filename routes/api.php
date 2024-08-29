@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\BarangContoller;
 use App\Http\Controllers\Api\DokterController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
@@ -97,6 +98,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     
     // User Statistic
     Route::get('user-statistic', [UserStatisticController::class, 'show'] )->middleware('auth:api');
+
+    Route::get('barang', [BarangContoller::class, 'index'] );
 
 });
 
