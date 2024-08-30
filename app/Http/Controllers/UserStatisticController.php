@@ -10,6 +10,30 @@ use Illuminate\Support\Facades\Auth;
 class UserStatisticController extends Controller
 {
     //
+    public function index()
+    {
+        $now = Carbon::now();
+        $currentMonth = User_shifts::whereYear('valid_date_start', '=', $now->format('Y'))
+            ->whereMonth('valid_date_start', '=', $now->format('m'))
+            ->whereDay('valid_date_start', '<', $now->format('d'))
+            ->with('shifts')
+            ->get();
+        $today = User_shifts::whereYear('valid_date_start', '=', $now->format('Y'))
+            ->whereMonth('valid_date_start', '=', $now->format('m'))
+            ->whereDay('valid_date_start', '=', $now->format('d'))
+            ->with('shifts')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Statistic Sucessfull',
+            'data' => array(
+                "data_shift_1bulan" => $currentMonth,
+                "data_shift_hari_ini" => $today,
+            ),
+        ], 200);
+    }
+
     public function show()
     {
         $absensi3 = User_shifts::where('user_id', '=', Auth::id())
