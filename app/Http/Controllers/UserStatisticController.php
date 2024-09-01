@@ -94,6 +94,7 @@ class UserStatisticController extends Controller
         $jumlahTerlambat = 0;
         foreach ($currentMonth as $data) {
             $jumlahShifts++;
+            // dd($jumlahShifts);
             $userCheckIn = new Carbon($data['check_in']);
             $checkIn = new Carbon($data['shifts']['check_in']);
             if ($data['check_in'] == NULL) {
@@ -116,7 +117,7 @@ class UserStatisticController extends Controller
             }
         }
         return array(
-            'rating' => $totalRating / $jumlahShifts,
+            'rating' => ($jumlahShifts == 0 ? 5 : $totalRating / $jumlahShifts) ,
             'jumlahTerlambat' => $jumlahTerlambat,
         );
     }
