@@ -38,8 +38,10 @@ class KeuanganController extends Controller
      */
     public function show(string $id)
     {
-        
-        $result = Salary::where('user_id', Auth::id())->get();
+
+        $result = Salary::where('user_id', Auth::id())
+        ->where('status', '=', '1')
+        ->get();
         return response()->json([
             'success' => true,
             'message' => 'Salary get successfully.',
