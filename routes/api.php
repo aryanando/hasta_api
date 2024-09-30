@@ -95,6 +95,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('rujukan', [KlaimRujukanController::class, 'store'] )->middleware('auth:api');
     Route::put('rujukan/{id}', [KlaimRujukanController::class, 'update'] )->middleware('auth:api');
     Route::get('rujukan-data', [KlaimRujukanController::class, 'getDataRujukan'] )->middleware('auth:api');
+    Route::get('rujukan-detail', [KlaimRujukanController::class, 'getGroupDataRujukan'] )->middleware('auth:api');
 
     // User Statistic
     Route::get('user-statistic', [UserStatisticController::class, 'show'] )->middleware('auth:api');
