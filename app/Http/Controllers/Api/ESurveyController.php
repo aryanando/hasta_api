@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\ESurvey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ESurveyController extends BaseController
@@ -14,7 +15,17 @@ class ESurveyController extends BaseController
      */
     public function index()
     {
-        $data['esurvey'] = ESurvey::with(['user'])->get();
+        $data['alreadyUp'] = 0;
+        $data['esurvey'] = ESurvey::with(['user'])
+        ->where('user_id', '=', Auth::id())
+        ->get();
+
+        foreach ($data['esurvey'] as $eSurvey) {
+            // $data['flag'] = today();
+            if($eSurvey->created_at->format('M') == today()->format('M')){
+                $data['alreadyUp'] = 1;
+            }
+        }
         return response()->json([
             'success' => true,
             'message' => 'Get Data Esurvey Sucessfull',
@@ -29,22 +40,20 @@ class ESurveyController extends BaseController
     {
         $input = $request;
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required',
         ]);
         $data = 0;
         if ($validator) {
             $imageName = time() . '.' . $request->image->extension();
-            $input->image->move(public_path('images/esurvey'), $imageName);
+            $request->image->move(public_path('images/esurvey'), $imageName);
             $product = new ESurvey();
-            $product->user_id = $input->user_id;
+            $product->user_id = Auth::id();
             $product->image = 'images/' . $imageName;
             $product->save();
-
             return response()->json([
                 'success' => true,
                 'message' => 'Add Data Esurvey Sucessfull',
-                'data' => $data,
+                'data' => true,
             ], 200);
         } else {
             return response()->json([
