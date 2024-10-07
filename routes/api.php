@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\BarangContoller;
 use App\Http\Controllers\Api\DokterController;
+use App\Http\Controllers\Api\ESurveyController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
@@ -103,6 +104,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Barang
     Route::get('barang', [BarangContoller::class, 'index'] );
+
+    // Esurvey
+    Route::get('esurvey', [ESurveyController::class, 'index'] )->middleware('auth:api');
+    Route::post('esurvey', [ESurveyController::class, 'store'] )->middleware('auth:api');
 
 });
 
