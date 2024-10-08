@@ -44,11 +44,11 @@ class ESurveyController extends BaseController
         ]);
         $data = 0;
         if ($validator) {
-            // $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('assets/images/esurvey'), 'aaa');
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('assets/images/esurvey'), $imageName);
             $product = new ESurvey();
             $product->user_id = Auth::id();
-            $product->image = 'assets/images/esurvey/' . 'aaa';
+            $product->image = 'assets/images/esurvey/' . $imageName;
             $product->save();
             return response()->json([
                 'success' => true,
