@@ -43,6 +43,9 @@ class ESurveyController extends BaseController
             'image' => 'required',
         ]);
         $data = 0;
+        if (!$request->has('image')) {
+            return response()->json(['message' => 'Missing file'], 422);
+        }
         if ($validator) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('assets/images/esurvey'), $imageName);
