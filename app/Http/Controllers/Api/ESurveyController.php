@@ -18,12 +18,12 @@ class ESurveyController extends BaseController
     {
         $data['alreadyUp'] = 0;
         $data['esurvey'] = Esurvey::with(['user'])
-        ->where('user_id', '=', Auth::id())
-        ->get();
+            ->where('user_id', '=', Auth::id())
+            ->get();
 
         foreach ($data['esurvey'] as $eSurvey) {
             // $data['flag'] = today();
-            if($eSurvey->created_at->format('M') == today()->format('M')){
+            if ($eSurvey->created_at->format('M') == today()->format('M')) {
                 $data['alreadyUp'] = 1;
             }
         }
@@ -34,20 +34,16 @@ class ESurveyController extends BaseController
         ], 200);
     }
 
-    public function getByParam($param, $id = null)
+    public function getByParam($id = null)
     {
         if ($id == null) {
-            if ($param == "unit") {
-                $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with('esurvey')
                 ->where('unit_id', '=', Auth::user()['unit_id'])
                 ->get();
-            }
         } else {
-            if ($param == "unit") {
-                $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with('esurvey')
                 ->where('unit_id', '=', $id)
                 ->get();
-            }
         }
 
         return response()->json([

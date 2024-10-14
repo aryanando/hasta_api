@@ -107,8 +107,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Esurvey
     Route::get('esurvey', [ESurveyController::class, 'index'] )->middleware('auth:api');
-    Route::get('esurvey/{param}', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
-    Route::get('esurvey/{param}/{id}', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
+    Route::get('esurvey/unit', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
+    Route::get('esurvey/unit/{id}', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
     Route::post('esurvey', [ESurveyController::class, 'store'] )->middleware('auth:api');
 
 });
