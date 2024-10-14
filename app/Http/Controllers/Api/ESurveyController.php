@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ESurvey;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +27,21 @@ class ESurveyController extends BaseController
                 $data['alreadyUp'] = 1;
             }
         }
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Data Esurvey Sucessfull',
+            'data' => $data,
+        ], 200);
+    }
+
+    public function getByParam($param)
+    {
+        if ($param == "unit") {
+            $data['esurvey'] = User::with('esurvey')
+            ->where('unit_id', '=', Auth::user()['unit_id'])
+            ->get();
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Get Data Esurvey Sucessfull',
