@@ -34,12 +34,20 @@ class ESurveyController extends BaseController
         ], 200);
     }
 
-    public function getByParam($param)
+    public function getByParam($param, $id = null)
     {
-        if ($param == "unit") {
-            $data['esurvey'] = User::with('esurvey')
-            ->where('unit_id', '=', Auth::user()['unit_id'])
-            ->get();
+        if ($id == null) {
+            if ($param == "unit") {
+                $data['esurvey'] = User::with('esurvey')
+                ->where('unit_id', '=', Auth::user()['unit_id'])
+                ->get();
+            }
+        } else {
+            if ($param == "unit") {
+                $data['esurvey'] = User::with('esurvey')
+                ->where('unit_id', '=', $id)
+                ->get();
+            }
         }
 
         return response()->json([
