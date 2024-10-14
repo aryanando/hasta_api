@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\ESurvey;
+use App\Models\Esurvey;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ class ESurveyController extends BaseController
     public function index()
     {
         $data['alreadyUp'] = 0;
-        $data['esurvey'] = ESurvey::with(['user'])
+        $data['esurvey'] = Esurvey::with(['user'])
         ->where('user_id', '=', Auth::id())
         ->get();
 
@@ -65,7 +65,7 @@ class ESurveyController extends BaseController
         if ($validator) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('assets/images/esurvey'), $imageName);
-            $product = new ESurvey();
+            $product = new Esurvey();
             $product->user_id = Auth::id();
             $product->image = 'assets/images/esurvey/' . $imageName;
             $product->save();
@@ -86,7 +86,7 @@ class ESurveyController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(ESurvey $eSurvey)
+    public function show(Esurvey $eSurvey)
     {
         //
     }
@@ -94,7 +94,7 @@ class ESurveyController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ESurvey $eSurvey)
+    public function update(Request $request, Esurvey $eSurvey)
     {
         //
     }
@@ -102,7 +102,7 @@ class ESurveyController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ESurvey $eSurvey)
+    public function destroy(Esurvey $eSurvey)
     {
         //
     }

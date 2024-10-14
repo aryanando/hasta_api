@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ESurvey extends Model
+class Esurvey extends Model
 {
     use HasFactory;
     protected $table = 'esurvey';
