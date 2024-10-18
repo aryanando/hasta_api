@@ -14,7 +14,7 @@ class JenisKaryawanController extends Controller
     public function index()
     {
         $data = array(
-            'jenis-karyawan' => JenisKaryawan::all(),
+            'jenis_karyawan' => JenisKaryawan::all(),
         );
         return response()->json([
             'success' => true,
@@ -37,7 +37,7 @@ class JenisKaryawanController extends Controller
     public function show($id)
     {
         $data = array(
-            'jenis-karyawan' => JenisKaryawan::find($id),
+            'jenis_karyawan' => JenisKaryawan::find($id),
         );
         return response()->json([
             'success' => true,
