@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\BarangContoller;
 use App\Http\Controllers\Api\DokterController;
 use App\Http\Controllers\Api\ESurveyController;
+use App\Http\Controllers\Api\JenisKaryawanController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Api\UnitController;
 use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\UserStatisticController;
+use App\Models\JenisKaryawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +82,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('unit/{id}', [UnitController::class, 'show'] )->middleware('auth:api');
     Route::post('unit', [UnitController::class, 'store'] )->middleware('auth:api');
 
+    // Unit
+    Route::get('jenis-karyawan', [JenisKaryawanController::class, 'index'] )->middleware('auth:api');
+    Route::get('jenis-karyawan/{id}', [JenisKaryawanController::class, 'show'] )->middleware('auth:api');
+
     // Slip
     Route::post('slip', [KeuanganController::class, 'store'] )->middleware('auth:api');
     Route::get('slip/{id}', [KeuanganController::class, 'show'] )->middleware('auth:api');
@@ -109,6 +115,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('esurvey', [ESurveyController::class, 'index'] )->middleware('auth:api');
     Route::get('esurvey/unit', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
     Route::get('esurvey/unit/{id}', [ESurveyController::class, 'getByParam'] )->middleware('auth:api');
+    Route::get('esurvey/jenis-karyawan', [ESurveyController::class, 'getByJenisKaryawan'] )->middleware('auth:api');
+    Route::get('esurvey/jenis-karyawan/{id}', [ESurveyController::class, 'getByJenisKaryawan'] )->middleware('auth:api');
     Route::post('esurvey', [ESurveyController::class, 'store'] )->middleware('auth:api');
 
 });

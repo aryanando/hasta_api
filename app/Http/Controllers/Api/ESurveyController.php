@@ -53,6 +53,25 @@ class ESurveyController extends BaseController
         ], 200);
     }
 
+    public function getByJenisKaryawan($id = null)
+    {
+        if ($id == null) {
+            $data['esurvey'] = User::with('esurvey')
+                ->where('jenis_karyawan_id', '=', Auth::user()['jenis_karyawan_id'])
+                ->get();
+        } else {
+            $data['esurvey'] = User::with('esurvey')
+                ->where('jenis_karyawan_id', '=', $id)
+                ->get();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Data Esurvey By Jenis Karyawan Sucessfull',
+            'data' => $data,
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

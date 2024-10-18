@@ -49,6 +49,10 @@ class User extends Authenticatable
         return $this->hasOne(Unit_translations::class, 'id', 'unit_id');
     }
 
+    function jenisKaryawan() : HasOne {
+        return $this->hasOne(JenisKaryawan::class, 'id', 'jenis_karyawan_id');
+    }
+
     function esurvey() : HasMany {
         return $this->hasMany(Esurvey::class, 'user_id', 'id');
     }
