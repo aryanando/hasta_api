@@ -70,6 +70,21 @@ class ESurveyController extends BaseController
                 ->get();
         }
 
+        $data['statistic'] = array(
+            'polri' => $this->EsurveyCounter(User::withCount('esurvey')
+                ->where('jenis_karyawan_id', '=', '1')
+                ->whereNull('deleted_at')
+                ->get()),
+            'pns' => $this->EsurveyCounter(User::withCount('esurvey')
+                ->where('jenis_karyawan_id', '=', '2')
+                ->whereNull('deleted_at')
+                ->get()),
+            'blu' => $this->EsurveyCounter(User::withCount('esurvey')
+                ->where('jenis_karyawan_id', '=', '3')
+                ->whereNull('deleted_at')
+                ->get()),
+        );
+
         return response()->json([
             'success' => true,
             'message' => 'Get Data Esurvey By Jenis Karyawan Sucessfull',
@@ -133,5 +148,21 @@ class ESurveyController extends BaseController
     public function destroy(Esurvey $eSurvey)
     {
         //
+    }
+
+    function EsurveyCounter($data)
+    {
+        $result = array(
+            'sudah' => 0,
+            'belum' => 0
+        );
+        foreach ($data as $user) {
+            if ($user['esurvey_count'] > 0) {
+                $result['sudah']++;
+            } else {
+                $result['belum']++;
+            }
+        }
+        return $result;
     }
 }
