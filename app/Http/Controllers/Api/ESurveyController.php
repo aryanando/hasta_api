@@ -19,6 +19,7 @@ class ESurveyController extends BaseController
         $data['alreadyUp'] = 0;
         $data['esurvey'] = Esurvey::with(['user'])
             ->where('user_id', '=', Auth::id())
+            ->whereNull('deleted_at')
             ->get();
 
         foreach ($data['esurvey'] as $eSurvey) {
@@ -39,10 +40,12 @@ class ESurveyController extends BaseController
         if ($id == null) {
             $data['esurvey'] = User::with('esurvey')
                 ->where('unit_id', '=', Auth::user()['unit_id'])
+                ->whereNull('deleted_at')
                 ->get();
         } else {
             $data['esurvey'] = User::with('esurvey')
                 ->where('unit_id', '=', $id)
+                ->whereNull('deleted_at')
                 ->get();
         }
 
@@ -58,10 +61,12 @@ class ESurveyController extends BaseController
         if ($id == null) {
             $data['esurvey'] = User::with('esurvey')
                 ->where('jenis_karyawan_id', '=', Auth::user()['jenis_karyawan_id'])
+                ->whereNull('deleted_at')
                 ->get();
         } else {
             $data['esurvey'] = User::with('esurvey')
                 ->where('jenis_karyawan_id', '=', $id)
+                ->whereNull('deleted_at')
                 ->get();
         }
 
