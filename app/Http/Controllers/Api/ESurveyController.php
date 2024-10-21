@@ -145,9 +145,22 @@ class ESurveyController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Esurvey $eSurvey)
+    public function destroy($id)
     {
-        //
+        $delete = Esurvey::find($id)->delete();
+        if($delete){
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Data Esurvey Sucessfull',
+                'data' => $delete,
+            ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Data Esurvey Unsucessfull',
+                'data' => $delete,
+            ], 200);
+        }
     }
 
     function EsurveyCounter($data)

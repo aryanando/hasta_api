@@ -118,6 +118,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('esurvey/jenis-karyawan', [ESurveyController::class, 'getByJenisKaryawan'] )->middleware('auth:api');
     Route::get('esurvey/jenis-karyawan/{id}', [ESurveyController::class, 'getByJenisKaryawan'] )->middleware('auth:api');
     Route::post('esurvey', [ESurveyController::class, 'store'] )->middleware('auth:api');
+    Route::delete('esurvey/{id}', [ESurveyController::class, 'destroy'] )->middleware('auth:api');
 
 });
 
