@@ -21,11 +21,11 @@ class User_shifts extends Model
     ];
 
     function shifts() : BelongsTo {
-        return $this->belongsTo(Shifts::class, 'shift_id');
+        return $this->belongsTo(Shifts::class, 'shift_id')->withTrashed();
     }
     function users() : BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    
+
 }
