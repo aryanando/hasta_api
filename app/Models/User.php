@@ -56,4 +56,8 @@ class User extends Authenticatable
     function esurvey() : HasMany {
         return $this->hasMany(Esurvey::class, 'user_id', 'id');
     }
+
+    function shifts() : HasMany {
+        return $this->hasMany(User_shifts::class);
+    }
 }

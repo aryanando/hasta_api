@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\UnitController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\UserStatisticController;
@@ -119,6 +120,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('esurvey/jenis-karyawan/{id}', [ESurveyController::class, 'getByJenisKaryawan'] )->middleware('auth:api');
     Route::post('esurvey', [ESurveyController::class, 'store'] )->middleware('auth:api');
     Route::delete('esurvey/{id}', [ESurveyController::class, 'destroy'] )->middleware('auth:api');
+
+    // Admin
+    Route::get('admin/users', [UserController::class, 'index'])->middleware('auth:api');
+    Route::get('admin/users/{id}', [UserController::class, 'show'])->middleware('auth:api');
 
 });
 
