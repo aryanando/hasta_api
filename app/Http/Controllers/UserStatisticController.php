@@ -71,6 +71,11 @@ class UserStatisticController extends Controller
             ->with('shifts')
             ->get();
 
+        $today = User_shifts::where('user_id', '=', $id == null ? Auth::id() : $id)
+            // ->where('valid_date_start', '=', $now)
+            ->with('shifts')
+            ->get();
+
         $data = array(
             'threeMonthShift' => $absensi3,
             'currentMonth' => $currentMonth,
@@ -80,6 +85,9 @@ class UserStatisticController extends Controller
             'countShifts' => count($currentMonth),
             'lastMonthRating' => $this->monthRating($lastMonth),
             'currentMonthData' => $this->monthRating($currentMonth),
+            'today' => array(
+                'absensi' => $today,
+            ),
         );
         return response()->json([
             'success' => true,
@@ -108,7 +116,7 @@ class UserStatisticController extends Controller
                 $batasMasuk = new Carbon($checkIn->format('h:i:s'));
                 if ($batasMasuk->gt($masuk)) {
                     $totalRating += 5;
-                    $jumlahTidakTerlambat +=1;
+                    $jumlahTidakTerlambat += 1;
                 } else {
                     if ($masuk->diffInMinutes($batasMasuk) < 50 and $masuk->diffInMinutes($batasMasuk) > 0) {
                         $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
@@ -117,14 +125,14 @@ class UserStatisticController extends Controller
                     }
                     if ($masuk->diffInMinutes($batasMasuk) > 10) {
                         $jumlahTerlambat += 1;
-                    }else{
-                        $jumlahTidakTerlambat +=1;
+                    } else {
+                        $jumlahTidakTerlambat += 1;
                     }
                 }
             }
         }
         return array(
-            'rating' => ($jumlahShifts == 0 ? 5 : $totalRating / $jumlahShifts) ,
+            'rating' => ($jumlahShifts == 0 ? 5 : $totalRating / $jumlahShifts),
             'jumlahTerlambat' => $jumlahTerlambat,
             'jumlahTidakAbsen' => $jumlahTidakAbsen,
             'jumlahTidakTerlambat' => $jumlahTidakTerlambat,
