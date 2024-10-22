@@ -107,6 +107,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // User Statistic
     Route::get('user-statistic', [UserStatisticController::class, 'show'] )->middleware('auth:api');
+    Route::get('user-statistic/{id}', [UserStatisticController::class, 'show'] )->middleware('auth:api');
     Route::get('statistic', [UserStatisticController::class, 'index'] )->middleware('auth:api');
 
     // Barang

@@ -34,9 +34,9 @@ class UserStatisticController extends Controller
         ], 200);
     }
 
-    public function show()
+    public function show($id = null)
     {
-        $absensi3 = User_shifts::where('user_id', '=', Auth::id())
+        $absensi3 = User_shifts::where('user_id', '=', $id == null ? Auth::id() : $id)
             ->with('shifts')
             ->where(function ($query) {
                 $nows = Carbon::now();
@@ -49,7 +49,7 @@ class UserStatisticController extends Controller
 
         $now = Carbon::now();
         if ($now->format('m') == '08') {
-            $currentMonth = User_shifts::where('user_id', '=', Auth::id())
+            $currentMonth = User_shifts::where('user_id', '=', $id == null ? Auth::id() : $id)
                 ->whereYear('valid_date_start', '=', $now->format('Y'))
                 ->whereMonth('valid_date_start', '=', $now->format('m'))
                 ->whereDay('valid_date_start', '<', $now->format('d'))
@@ -57,7 +57,7 @@ class UserStatisticController extends Controller
                 ->with('shifts')
                 ->get();
         } else {
-            $currentMonth = User_shifts::where('user_id', '=', Auth::id())
+            $currentMonth = User_shifts::where('user_id', '=', $id == null ? Auth::id() : $id)
                 ->whereYear('valid_date_start', '=', $now->format('Y'))
                 ->whereMonth('valid_date_start', '=', $now->format('m'))
                 ->whereDay('valid_date_start', '<', $now->format('d'))
@@ -65,7 +65,7 @@ class UserStatisticController extends Controller
                 ->get();
         }
 
-        $lastMonth = User_shifts::where('user_id', '=', Auth::id())
+        $lastMonth = User_shifts::where('user_id', '=', $id == null ? Auth::id() : $id)
             ->whereYear('valid_date_start', '=', $now->format('Y'))
             ->whereMonth('valid_date_start', '=', $now->subMonth()->format('m'))
             ->with('shifts')
@@ -79,6 +79,7 @@ class UserStatisticController extends Controller
             'currentMonthLate' => $this->monthRating($currentMonth)['jumlahTerlambat'],
             'countShifts' => count($currentMonth),
             'lastMonthRating' => $this->monthRating($lastMonth),
+            'currentMonthData' => $this->monthRating($currentMonth),
         );
         return response()->json([
             'success' => true,
@@ -92,6 +93,8 @@ class UserStatisticController extends Controller
         $totalRating = 0;
         $jumlahShifts = 0;
         $jumlahTerlambat = 0;
+        $jumlahTidakAbsen = 0;
+        $jumlahTidakTerlambat = 0;
         foreach ($currentMonth as $data) {
             $jumlahShifts++;
             // dd($jumlahShifts);
@@ -99,11 +102,13 @@ class UserStatisticController extends Controller
             $checkIn = new Carbon($data['shifts']['check_in']);
             if ($data['check_in'] == NULL) {
                 $totalRating += 0;
+                $jumlahTidakAbsen += 1;
             } else {
                 $masuk = new Carbon($userCheckIn->format('h:i:s'));
                 $batasMasuk = new Carbon($checkIn->format('h:i:s'));
                 if ($batasMasuk->gt($masuk)) {
                     $totalRating += 5;
+                    $jumlahTidakTerlambat +=1;
                 } else {
                     if ($masuk->diffInMinutes($batasMasuk) < 50 and $masuk->diffInMinutes($batasMasuk) > 0) {
                         $totalRating += 5 - $masuk->diffInMinutes($batasMasuk) / 10;
@@ -112,6 +117,8 @@ class UserStatisticController extends Controller
                     }
                     if ($masuk->diffInMinutes($batasMasuk) > 10) {
                         $jumlahTerlambat += 1;
+                    }else{
+                        $jumlahTidakTerlambat +=1;
                     }
                 }
             }
@@ -119,6 +126,8 @@ class UserStatisticController extends Controller
         return array(
             'rating' => ($jumlahShifts == 0 ? 5 : $totalRating / $jumlahShifts) ,
             'jumlahTerlambat' => $jumlahTerlambat,
+            'jumlahTidakAbsen' => $jumlahTidakAbsen,
+            'jumlahTidakTerlambat' => $jumlahTidakTerlambat,
         );
     }
 }
