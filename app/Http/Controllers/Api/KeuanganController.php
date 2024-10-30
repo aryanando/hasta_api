@@ -12,9 +12,25 @@ class KeuanganController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id = null, $bulan = null, $tahun = null)
     {
-        //
+        if ($id == null) {
+            $result = Salary::with('user')->get();
+        }else{
+            $result = Salary::with('user')->where('user_id','=',$id)->get();
+            if ($bulan != null AND $tahun != null) {
+                $result = Salary::with('user')
+                ->where('user_id','=',$id)
+                ->where('bulan','=',$bulan)
+                ->where('tahun','=',$tahun)
+                ->get();
+            }
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Salary Get successfully.',
+            'data' => $result,
+        ], 200);
     }
 
     /**
@@ -63,5 +79,19 @@ class KeuanganController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function bulan($bulan, $tahun) {
+        if ($bulan != null AND $tahun != null) {
+            $result = Salary::with('user')
+            ->where('bulan','=',$bulan)
+            ->where('tahun','=',$tahun)
+            ->get();
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Salary Get successfully.',
+            'data' => $result,
+        ], 200);
     }
 }
