@@ -71,7 +71,6 @@ class ESurveyController extends BaseController
                 $query->whereMonth('created_at', Carbon::now()->month);
             }])
                 ->where('jenis_karyawan_id', '=', $id)
-                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get();
         }
@@ -81,21 +80,18 @@ class ESurveyController extends BaseController
                 $query->whereMonth('created_at', Carbon::now()->month);
             }])
                 ->where('jenis_karyawan_id', '=', '1')
-                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
             'pns' => $this->EsurveyCounter(User::withCount(['esurvey' => function ($query) {
                 $query->whereMonth('created_at', Carbon::now()->month);
             }])
                 ->where('jenis_karyawan_id', '=', '2')
-                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
             'blu' => $this->EsurveyCounter(User::withCount(['esurvey' => function ($query) {
                 $query->whereMonth('created_at', Carbon::now()->month);
             }])
                 ->where('jenis_karyawan_id', '=', '3')
-                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
         );
