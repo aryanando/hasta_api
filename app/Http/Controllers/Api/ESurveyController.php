@@ -39,12 +39,16 @@ class ESurveyController extends BaseController
     public function getByParam($id = null)
     {
         if ($id == null) {
-            $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('unit_id', '=', Auth::user()['unit_id'])
                 ->whereNull('deleted_at')
                 ->get();
         } else {
-            $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('unit_id', '=', $id)
                 ->whereNull('deleted_at')
                 ->get();
