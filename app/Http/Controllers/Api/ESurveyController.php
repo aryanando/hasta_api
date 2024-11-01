@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Esurvey;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -61,11 +62,13 @@ class ESurveyController extends BaseController
         if ($id == null) {
             $data['esurvey'] = User::with('esurvey')
                 ->where('jenis_karyawan_id', '=', Auth::user()['jenis_karyawan_id'])
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get();
         } else {
             $data['esurvey'] = User::with('esurvey')
                 ->where('jenis_karyawan_id', '=', $id)
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get();
         }
@@ -73,14 +76,17 @@ class ESurveyController extends BaseController
         $data['statistic'] = array(
             'polri' => $this->EsurveyCounter(User::withCount('esurvey')
                 ->where('jenis_karyawan_id', '=', '1')
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
             'pns' => $this->EsurveyCounter(User::withCount('esurvey')
                 ->where('jenis_karyawan_id', '=', '2')
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
             'blu' => $this->EsurveyCounter(User::withCount('esurvey')
                 ->where('jenis_karyawan_id', '=', '3')
+                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
         );
