@@ -49,7 +49,9 @@ class UserController extends Controller
                 $q->with('shifts');
                 $q->whereDate('valid_date_start', Carbon::today());
             },
-            'esurvey'
+            'esurvey' => function ($q) {
+                $q->whereMonth('created_at', Carbon::now()->month);
+            }
         ])
             ->get()->find($id);
 
