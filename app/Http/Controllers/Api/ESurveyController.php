@@ -60,13 +60,16 @@ class ESurveyController extends BaseController
     public function getByJenisKaryawan($id = null)
     {
         if ($id == null) {
-            $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('jenis_karyawan_id', '=', Auth::user()['jenis_karyawan_id'])
-                ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get();
         } else {
-            $data['esurvey'] = User::with('esurvey')
+            $data['esurvey'] = User::with(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('jenis_karyawan_id', '=', $id)
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
@@ -74,17 +77,23 @@ class ESurveyController extends BaseController
         }
 
         $data['statistic'] = array(
-            'polri' => $this->EsurveyCounter(User::withCount('esurvey')
+            'polri' => $this->EsurveyCounter(User::withCount(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('jenis_karyawan_id', '=', '1')
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
-            'pns' => $this->EsurveyCounter(User::withCount('esurvey')
+            'pns' => $this->EsurveyCounter(User::withCount(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('jenis_karyawan_id', '=', '2')
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
                 ->get()),
-            'blu' => $this->EsurveyCounter(User::withCount('esurvey')
+            'blu' => $this->EsurveyCounter(User::withCount(['esurvey' => function ($query) {
+                $query->whereMonth('created_at', Carbon::now()->month);
+            }])
                 ->where('jenis_karyawan_id', '=', '3')
                 ->whereMonth('created_at', Carbon::now()->month)
                 ->whereNull('deleted_at')
@@ -154,13 +163,13 @@ class ESurveyController extends BaseController
     public function destroy($id)
     {
         $delete = Esurvey::find($id)->delete();
-        if($delete){
+        if ($delete) {
             return response()->json([
                 'success' => false,
                 'message' => 'Delete Data Esurvey Sucessfull',
                 'data' => $delete,
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Delete Data Esurvey Unsucessfull',
