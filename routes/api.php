@@ -91,6 +91,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::post('slip', [KeuanganController::class, 'store'] )->middleware('auth:api');
     Route::get('slip/{id}', [KeuanganController::class, 'show'] )->middleware('auth:api');
     Route::get('slips', [KeuanganController::class, 'index'] )->middleware('auth:api');
+    Route::get('slips/activate', [KeuanganController::class, 'update'] )->middleware('auth:api');
     Route::get('slips/{id}', [KeuanganController::class, 'index'] )->middleware('auth:api');
     Route::get('slips/{id}/{bulan}/{tahun}', [KeuanganController::class, 'index'] )->middleware('auth:api');
     Route::get('slips-perbualan/{bulan}/{tahun}', [KeuanganController::class, 'bulan'] )->middleware('auth:api');

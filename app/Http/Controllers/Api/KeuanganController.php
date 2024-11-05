@@ -68,9 +68,15 @@ class KeuanganController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update()
     {
-        //
+        $result = Salary::where('status', '=', 0)
+        ->update(['status' => 1]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Salary update successfully.',
+            'data' => $result,
+        ], 200);
     }
 
     /**
