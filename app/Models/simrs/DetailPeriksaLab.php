@@ -16,8 +16,8 @@ class DetailPeriksaLab extends Model
     public $incrementing = false;
     // protected $keyType = 'string';
 
-    function dataTemplateLaboratorium() : HasMany {
-        return $this->hasMany(TemplateLaboratorium::class, 'id_template', 'id_template');
+    function dataTemplateLaboratorium() : HasOne {
+        return $this->hasOne(TemplateLaboratorium::class, 'id_template', 'id_template');
     }
 
     function dataJenisPerawatanLab() : HasOne {
