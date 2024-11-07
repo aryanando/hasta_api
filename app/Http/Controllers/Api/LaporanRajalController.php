@@ -18,7 +18,7 @@ class LaporanRajalController extends Controller
         $from = date('2024-11-06');
         $to = date('2024-11-07');
         $data =
-            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPemberianObat', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             // RegistrasiPeriksa::with(['dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             ->whereDate('tgl_registrasi', Carbon::today())
             // ->whereBetween('tgl_registrasi', [$from, $to])
@@ -42,7 +42,7 @@ class LaporanRajalController extends Controller
     {
         $date = date($tahun.'-'.$bulan.'-'.$tanggal);
         $data =
-            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPemberianObat' , 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             // RegistrasiPeriksa::with(['dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             ->whereDate('tgl_registrasi', $date)
             // ->whereBetween('tgl_registrasi', [$from, $to])
@@ -66,7 +66,7 @@ class LaporanRajalController extends Controller
     {
         $date = date($tahun.'-'.$bulan.'-'.$tanggal);
         $data =
-            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPemberianObat', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             // RegistrasiPeriksa::with(['dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
             ->whereDate('tgl_registrasi', $date)
             ->where('kd_dokter', '=', $kd_dokter)
