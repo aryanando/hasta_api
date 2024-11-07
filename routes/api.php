@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ESurveyController;
 use App\Http\Controllers\Api\JenisKaryawanController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
+use App\Http\Controllers\Api\LaporanRajalController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\PengumumanController;
 use App\Http\Controllers\Api\RanapController;
@@ -131,6 +132,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     // Admin
     Route::get('admin/users', [UserController::class, 'index'])->middleware('auth:api');
     Route::get('admin/users/{id}', [UserController::class, 'show'])->middleware('auth:api');
+
+    // Laporan
+    Route::get('laporan/rajal', [LaporanRajalController::class, 'index'])->middleware('auth:api');
+
 
 });
 
