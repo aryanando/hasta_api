@@ -38,6 +38,55 @@ class LaporanRajalController extends Controller
         ], 200);
     }
 
+    public function tanggal($tahun, $bulan, $tanggal)
+    {
+        $date = date($tahun.'-'.$bulan.'-'.$tanggal);
+        $data =
+            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            // RegistrasiPeriksa::with(['dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            ->whereDate('tgl_registrasi', $date)
+            // ->whereBetween('tgl_registrasi', [$from, $to])
+            ->get();
+        // $dokter = JadwalDokter::all();
+        $data2 = [];
+
+        // foreach ($data as $rad) {
+        //     if (!empty($rad['data_periksa_radiologi'])) {
+        //         $data2 = $rad;
+        //     }
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Laporan Rajal pada tanggal '.$date.' Sucessfull',
+            'data' => $data,
+        ], 200);
+    }
+
+    public function dokter($tahun, $bulan, $tanggal, $kd_dokter)
+    {
+        $date = date($tahun.'-'.$bulan.'-'.$tanggal);
+        $data =
+            RegistrasiPeriksa::with(['pasien','dataPoli', 'dataDokter', 'dataPenjab', 'dataResepObat.dataResepDokter.dataBarang', 'dataPeriksaRadiologi', 'dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            // RegistrasiPeriksa::with(['dataPeriksaLaboratorium.dataDetailPeriksaLab.dataTemplateLaboratorium'])
+            ->whereDate('tgl_registrasi', $date)
+            ->where('kd_dokter', '=', $kd_dokter)
+            // ->whereBetween('tgl_registrasi', [$from, $to])
+            ->get();
+        // $dokter = JadwalDokter::all();
+        $data2 = [];
+
+        // foreach ($data as $rad) {
+        //     if (!empty($rad['data_periksa_radiologi'])) {
+        //         $data2 = $rad;
+        //     }
+        // }
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Laporan Rajal pada tanggal '.$date.' Sucessfull',
+            'data' => $data,
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

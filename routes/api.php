@@ -135,6 +135,8 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Laporan
     Route::get('laporan/rajal', [LaporanRajalController::class, 'index'])->middleware('auth:api');
+    Route::get('laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
+    Route::get('laporan/rajal/bydokter/{tahun}/{bulan}/{tanggal}/{kd_dokter}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
 
 
 });
