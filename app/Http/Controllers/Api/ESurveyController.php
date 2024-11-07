@@ -21,6 +21,7 @@ class ESurveyController extends BaseController
         $data['esurvey'] = Esurvey::with(['user'])
             ->where('user_id', '=', Auth::id())
             ->whereNull('deleted_at')
+            ->orderBy('id', 'DESC')
             ->get();
 
         foreach ($data['esurvey'] as $eSurvey) {
