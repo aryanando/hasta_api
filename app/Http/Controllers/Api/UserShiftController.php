@@ -45,7 +45,9 @@ class UserShiftController extends Controller
                 'user_shifts.valid_date_start as valid_date_start',
                 'user_shifts.valid_date_end as valid_date_end',
                 'shifts.check_in as shift_checkin',
-                'shifts.check_out as shift_checkout'
+                'shifts.check_out as shift_checkout',
+                'user_shifts.check_in as check_in',
+                'user_shifts.check_out as check_out',
             )
                 ->join('user_shifts', 'user_shifts.shift_id', '=', 'shifts.id')
                 ->join('users', 'users.id', '=', 'user_shifts.user_id')
