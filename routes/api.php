@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
 use App\Http\Controllers\Api\LaporanRajalController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
+use App\Http\Controllers\Api\OperasiJRController;
+use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\PengumumanController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
@@ -138,6 +140,12 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
     Route::get('laporan/rajal/bydokter/{tahun}/{bulan}/{tanggal}/{kd_dokter}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
 
+    // Operasi Jasaraharja
+    Route::get('operasi', [OperasiJRController::class, 'index'])->middleware('auth:api');
+
+    // Pasien
+    Route::get('pasien/nama/{name}', [PasienController::class, 'index'])->middleware('auth:api');
+    Route::get('regperiksa/{no_rkm_medis}', [PasienController::class, 'regPeriksa'])->middleware('auth:api');
 
 });
 
