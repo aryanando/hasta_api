@@ -142,10 +142,12 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Operasi Jasaraharja
     Route::get('operasi', [OperasiJRController::class, 'index'])->middleware('auth:api');
+    Route::get('operasi/by-no-rekam-medis/{no_rkm_medis}', [OperasiJRController::class, 'getByNoRM'])->middleware('auth:api');
 
     // Pasien
     Route::get('pasien/nama/{name}', [PasienController::class, 'index'])->middleware('auth:api');
     Route::get('regperiksa/{no_rkm_medis}', [PasienController::class, 'regPeriksa'])->middleware('auth:api');
+    Route::get('pasien/no-rawat', [PasienController::class, 'noRawat'])->middleware('auth:api');
 
 });
 

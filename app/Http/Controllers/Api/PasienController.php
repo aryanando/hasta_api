@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pasien;
+use App\Models\RegistrasiPeriksa;
 use Illuminate\Http\Request;
 
 class PasienController extends Controller
@@ -31,6 +32,16 @@ class PasienController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Get data pasien dan Regperiksa successfully.',
+            'data' => $result,
+        ], 200);
+    }
+
+    public function noRawat(Request $input) {
+
+        $result = RegistrasiPeriksa::with('pasien')->where('no_rawat', '=', $input['no_rawat'])->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Get data pasien by no_rawat successfully.',
             'data' => $result,
         ], 200);
     }
