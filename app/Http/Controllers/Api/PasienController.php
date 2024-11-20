@@ -45,4 +45,14 @@ class PasienController extends Controller
             'data' => $result,
         ], 200);
     }
+
+    public function noRkmMedis($no_rkm_medis) {
+
+        $result = Pasien::where('no_rkm_medis', '=', $no_rkm_medis)->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Get data pasien by no_rkm_medis successfully.',
+            'data' => $result,
+        ], 200);
+    }
 }

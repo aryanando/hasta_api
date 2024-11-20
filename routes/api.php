@@ -148,6 +148,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('pasien/nama/{name}', [PasienController::class, 'index'])->middleware('auth:api');
     Route::get('regperiksa/{no_rkm_medis}', [PasienController::class, 'regPeriksa'])->middleware('auth:api');
     Route::get('pasien/no-rawat', [PasienController::class, 'noRawat'])->middleware('auth:api');
+    Route::get('pasien/no-rkm-medis/{no_rkm_medis}', [PasienController::class, 'noRkmMedis'])->middleware('auth:api');
 
 });
 
