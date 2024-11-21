@@ -140,9 +140,11 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
     Route::get('laporan/rajal/bydokter/{tahun}/{bulan}/{tanggal}/{kd_dokter}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
 
-    // Operasi Jasaraharja
+    // Operasi
     Route::get('operasi', [OperasiJRController::class, 'index'])->middleware('auth:api');
     Route::get('operasi/by-no-rekam-medis/{no_rkm_medis}', [OperasiJRController::class, 'getByNoRM'])->middleware('auth:api');
+    Route::get('operasi/by-penjab/{kd_pj}', [OperasiJRController::class, 'getByPenjab'])->middleware('auth:api');
+    Route::put('operasi/by-no-rawat', [OperasiJRController::class, 'putOperasi'])->middleware('auth:api');
 
     // Pasien
     Route::get('pasien/nama/{name}', [PasienController::class, 'index'])->middleware('auth:api');

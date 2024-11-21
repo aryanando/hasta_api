@@ -2,8 +2,10 @@
 
 namespace App\Models\simrs;
 
+use App\Models\UpdateStatusOperasi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Operasi extends Model
 {
@@ -14,4 +16,9 @@ class Operasi extends Model
     protected $primaryKey = 'no_rawat';
     public $incrementing = false;
     protected $keyType = 'string';
+    public $timestamps = false;
+
+    function dataUpdateOperasi() : HasOne{
+        return $this->hasOne(UpdateStatusOperasi::class, 'tanggal_operasi', 'tgl_operasi');
+    }
 }
