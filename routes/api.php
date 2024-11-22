@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
 use App\Http\Controllers\Api\LaporanRajalController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
+use App\Http\Controllers\Api\OperasiJRController;
+use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\PengumumanController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
@@ -138,6 +140,17 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
     Route::get('laporan/rajal/bydokter/{tahun}/{bulan}/{tanggal}/{kd_dokter}', [LaporanRajalController::class, 'tanggal'])->middleware('auth:api');
 
+    // Operasi
+    Route::get('operasi', [OperasiJRController::class, 'index'])->middleware('auth:api');
+    Route::get('operasi/by-no-rekam-medis/{no_rkm_medis}', [OperasiJRController::class, 'getByNoRM'])->middleware('auth:api');
+    Route::get('operasi/by-penjab/{kd_pj}', [OperasiJRController::class, 'getByPenjab'])->middleware('auth:api');
+    Route::put('operasi/by-no-rawat', [OperasiJRController::class, 'putOperasi'])->middleware('auth:api');
+
+    // Pasien
+    Route::get('pasien/nama/{name}', [PasienController::class, 'index'])->middleware('auth:api');
+    Route::get('regperiksa/{no_rkm_medis}', [PasienController::class, 'regPeriksa'])->middleware('auth:api');
+    Route::get('pasien/no-rawat', [PasienController::class, 'noRawat'])->middleware('auth:api');
+    Route::get('pasien/no-rkm-medis/{no_rkm_medis}', [PasienController::class, 'noRkmMedis'])->middleware('auth:api');
 
 });
 

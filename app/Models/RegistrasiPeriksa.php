@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\simrs\DetailPemberianObat;
+use App\Models\simrs\Operasi;
 use App\Models\simrs\PeriksaLab;
 use App\Models\simrs\PeriksaRadiologi;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,6 +55,10 @@ class RegistrasiPeriksa extends Model
 
     function dataPemberianObat() : HasMany {
         return $this->hasMany(DetailPemberianObat::class, 'no_rawat', 'no_rawat');
+    }
+
+    function dataOperasi() : HasMany {
+        return $this->hasMany(Operasi::class, 'no_rawat', 'no_rawat');
     }
 
 }
