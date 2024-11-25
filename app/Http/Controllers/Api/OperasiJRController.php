@@ -58,10 +58,24 @@ class OperasiJRController extends Controller
             ->where('tanggal_operasi', $input['tgl_operasi'])->get();
         if (count($checkUpdateStatus) == 0) {
             $forBackup = (Operasi::where('no_rawat', $input['no_rawat'])
-                ->where('tgl_operasi', $input['tgl_operasi'])->get())->first();
-            $result = Operasi::where('no_rawat', $input['no_rawat'])
-                ->where('tgl_operasi', $input['tgl_operasi'])
-                ->update($input);
+                ->where('tgl_operasi', $input['tgl_operasi'])->get()->first());
+
+            if ($input['type_penanggung_jawab'] == 'JR_BPJS') {
+                $result = Operasi::where('no_rawat', $input['no_rawat'])
+                    ->where('tgl_operasi', $input['tgl_operasi'])
+                    ->update($this->processJasaraharjaBPJS($forBackup));
+            } elseif ($input['type_penanggung_jawab'] == 'JR') {
+                $result = Operasi::where('no_rawat', $input['no_rawat'])
+                    ->where('tgl_operasi', $input['tgl_operasi'])
+                    ->update([
+                        "biayaoperator1" => 6000000,
+                        "biayaasisten_operator1" => 600000,
+                        "biayainstrumen" => 300000,
+                        "biayadokter_anestesi" => 2100000,
+                        "biayaasisten_anestesi" => 300000,
+                        "biaya_omloop" => 150000,
+                    ]);
+            }
 
             $insert = UpdateStatusOperasi::create([
                 'no_rawat' => $input['no_rawat'],
@@ -96,6 +110,10 @@ class OperasiJRController extends Controller
                 'biaya_dokter_pjanak' => $forBackup['biaya_dokter_pjanak'],
                 'biaya_dokter_umum' => $forBackup['biaya_dokter_umum'],
             ]);
+
+            $insert = true;
+            $result = $this->processJasaraharjaBPJS($forBackup);
+            // $result = $forBackup;
             if ($forBackup and $insert) {
                 return response()->json([
                     'success' => true,
@@ -116,12 +134,71 @@ class OperasiJRController extends Controller
                 'data' => [],
             ], 200);
         }
+    }
 
+    // Private Custom Function ---------------------------------------------------------
 
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Update data operasi unsuccessfully Data Operasi Pernah Diupdate.',
-        //     'data' => count($checkUpdateStatus),
-        // ], 200);
+    function processJasaraharjaBPJS($data)
+    {
+        $codingBPJSClaim =
+            (($data['biayaoperator1'] ?? 0) +
+                ($data['biayaoperator2'] ?? 0) +
+                ($data['biayaoperator3'] ?? 0) +
+                ($data['biayaasisten_operator1'] ?? 0) +
+                ($data['biayaasisten_operator2'] ?? 0) +
+                ($data['biayaasisten_operator3'] ?? 0) +
+                ($data['biayainstrumen'] ?? 0) +
+                ($data['biayadokter_anak'] ?? 0) +
+                ($data['biayaperawaat_resusitas'] ?? 0) +
+                ($data['biayadokter_anestesi'] ?? 0) +
+                ($data['biayaasisten_anestesi'] ?? 0) +
+                ($data['biayaasisten_anestesi2'] ?? 0) +
+                ($data['biayabidan'] ?? 0) +
+                ($data['biayabidan2'] ?? 0) +
+                ($data['biayabidan3'] ?? 0) +
+                ($data['biayaperawat_luar'] ?? 0) +
+                ($data['biayaalat'] ?? 0) +
+                ($data['biayasewaok'] ?? 0) +
+                ($data['akomodasi'] ?? 0) +
+                ($data['bagian_rs'] ?? 0) +
+                ($data['biaya_omloop'] ?? 0) +
+                ($data['biaya_omloop2'] ?? 0) +
+                ($data['biaya_omloop3'] ?? 0) +
+                ($data['biaya_omloop4'] ?? 0) +
+                ($data['biaya_omloop5'] ?? 0) +
+                ($data['biayasarpras'] ?? 0) +
+                ($data['biaya_dokter_pjanak'] ?? 0) +
+                ($data['biaya_dokter_umum'] ?? 0)) + 20000000;
+
+        return array(
+            'biayaoperator1' => $codingBPJSClaim / 100 * 30,
+            'biayaoperator2' => 0,
+            'biayaoperator3' => 0,
+            'biayaasisten_operator1' => ($codingBPJSClaim / 100 * 30) / 100 * 10,
+            'biayaasisten_operator2' => 0,
+            'biayaasisten_operator3' => 0,
+            'biayainstrumen' => ($codingBPJSClaim / 100 * 30) / 100 * 5,
+            'biayadokter_anak' => 0,
+            'biayaperawaat_resusitas' => 0,
+            'biayadokter_anestesi' => ($codingBPJSClaim / 100 * 30) / 100 * 35,
+            'biayaasisten_anestesi' => ($codingBPJSClaim / 100 * 30) / 100 * 5,
+            'biayaasisten_anestesi2' => 0,
+            'biayabidan' => 0,
+            'biayabidan2' => 0,
+            'biayabidan3' => 0,
+            'biayaperawat_luar' => 0,
+            'biayaalat' => 0,
+            'biayasewaok' => 0,
+            'akomodasi' => 0,
+            'bagian_rs' => 0,
+            'biaya_omloop' => ($codingBPJSClaim / 100 * 30) / 100 * 2.5,
+            'biaya_omloop2' => 0,
+            'biaya_omloop3' => 0,
+            'biaya_omloop4' => 0,
+            'biaya_omloop5' => 0,
+            'biayasarpras' => 0,
+            'biaya_dokter_pjanak' => 0,
+            'biaya_dokter_umum' => 0
+        );
     }
 }
