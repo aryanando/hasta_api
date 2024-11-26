@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ESurveyController;
 use App\Http\Controllers\Api\JenisKaryawanController;
 use App\Http\Controllers\Api\KeuanganController;
 use App\Http\Controllers\Api\KlaimRujukanController;
+use App\Http\Controllers\Api\LaporanFarmasiController;
 use App\Http\Controllers\Api\LaporanRajalController;
 use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\OperasiJRController;
@@ -151,6 +152,10 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('regperiksa/{no_rkm_medis}', [PasienController::class, 'regPeriksa'])->middleware('auth:api');
     Route::get('pasien/no-rawat', [PasienController::class, 'noRawat'])->middleware('auth:api');
     Route::get('pasien/no-rkm-medis/{no_rkm_medis}', [PasienController::class, 'noRkmMedis'])->middleware('auth:api');
+
+    // Laporan Fatmasi
+    Route::get('laporan/farmasi/harian', [LaporanFarmasiController::class, 'index'])->middleware('auth:api');
+
 
 });
 

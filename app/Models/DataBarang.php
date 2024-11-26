@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\simrs\RiwayatBarangMedis;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,8 @@ class DataBarang extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    function dataRiwayatMedis() : HasMany {
+    function dataRiwayatBarangMedis(): HasMany
+    {
         return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng");
     }
 }
