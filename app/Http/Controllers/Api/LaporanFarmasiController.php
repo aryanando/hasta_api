@@ -16,12 +16,31 @@ class LaporanFarmasiController extends Controller
     public function index()
     {
         // $result = RiwayatBarangMedis::whereDate('tanggal', Carbon::today())->get();
-        $result = DataBarang::with(['dataRiwayatBarangMedis' => function ($query) {
-            $query->whereDate('tanggal', Carbon::today());
-            $query->orWhereDate('tanggal', Carbon::yesterday());
-        }])->get();
+        $result = DataBarang::with(['dataRiwayatBarangMedisLast', 'dataRiwayatBarangMedis' => function ($query) {
+            $query->whereDate('tanggal', Carbon::yesterday()->toString());
+            $query->orWhereDate('tanggal', Carbon::today());
+        }, 'dataGudangBarang' => function ($query) {
+            $query->where('kd_bangsal', '=', 'G001');
+            $query->orWhere('kd_bangsal', '=', 'B0153');
+            $query->orWhere('kd_bangsal', '=', 'B0152');
+        }])->where('status', '=', '1')
+        // ->where('kode_brng', '=', '1010401001501005')
+        ->get();
+
+        $count2 = 0;
+        $count = 0;
+
+        foreach ($result as $data) {
+            if ( count($data['dataRiwayatBarangMedis']) == 0 ) {
+                $count++;
+            }else{
+                $count2++;
+            }
+        }
         $message = 'Get Data Successfully';
         return response()->json([
+            'jumlah_tidak_terpakai' => $count,
+            'jumlah_terpakai' => $count2,
             'success' => true,
             'message' => $message,
             'data' => $result,
