@@ -23,6 +23,19 @@ class DataBarang extends Model
     {
         return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng")->latest('tanggal')->limit(1);
     }
+    function dataRiwayatBarangMedisLastG001(): HasMany
+    {
+        return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng")->latest('tanggal')->limit(1);
+    }
+
+    function dataRiwayatBarangMedisLastB0152(): HasMany
+    {
+        return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng")->latest('tanggal')->limit(1);
+    }
+    function dataRiwayatBarangMedisLastB0153(): HasMany
+    {
+        return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng")->latest('tanggal')->limit(1);
+    }
 
     function dataRiwayatBarangMedis(): HasMany
     {
