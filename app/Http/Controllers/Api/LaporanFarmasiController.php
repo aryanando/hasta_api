@@ -17,7 +17,7 @@ class LaporanFarmasiController extends Controller
     {
         // $result = RiwayatBarangMedis::whereDate('tanggal', Carbon::today())->get();
         $result = DataBarang::with(['dataRiwayatBarangMedisLast', 'dataRiwayatBarangMedis' => function ($query) {
-            $query->whereDate('tanggal', Carbon::yesterday()->toString());
+            $query->whereDate('tanggal', Carbon::yesterday());
             $query->orWhereDate('tanggal', Carbon::today());
         }, 'dataGudangBarang' => function ($query) {
             $query->where('kd_bangsal', '=', 'G001');
