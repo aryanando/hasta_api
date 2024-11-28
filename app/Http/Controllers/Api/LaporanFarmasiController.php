@@ -16,7 +16,7 @@ class LaporanFarmasiController extends Controller
     public function index()
     {
         // $result = RiwayatBarangMedis::whereDate('tanggal', Carbon::today())->get();
-        $result = DataBarang::with(['dataRiwayatBarangMedisLast','dataRiwayatBarangMedisLastG001' => function ($query) {
+        $result = DataBarang::with(['dataKategoriBarang' ,'dataRiwayatBarangMedisLast','dataRiwayatBarangMedisLastG001' => function ($query) {
             $query->where('kd_bangsal', '=', 'G001');
         } , 'dataRiwayatBarangMedisLastB0153' => function ($query) {
             $query->where('kd_bangsal', '=', 'B0153');
