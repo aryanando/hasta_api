@@ -44,11 +44,13 @@ class DataBarang extends Model
         return $this->hasMany(RiwayatBarangMedis::class, "kode_brng", "kode_brng");
     }
 
-    function dataGudangBarang() : HasMany {
+    function dataGudangBarang(): HasMany
+    {
         return $this->hasMany(GudangBarang::class, "kode_brng", "kode_brng");
     }
 
-    function dataKategoriBarang() : HasOne {
+    function dataKategoriBarang(): HasOne
+    {
         return $this->hasOne(KategoriBarang::class, "kode", "kode_kategori");
     }
 }
