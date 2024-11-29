@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\AbsensiTokenController;
 use App\Http\Controllers\Api\AuthenticationController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\UserStatisticController;
 use App\Models\JenisKaryawan;
+use App\Models\simrs\AntriPoli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -153,9 +155,11 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
     Route::get('pasien/no-rawat', [PasienController::class, 'noRawat'])->middleware('auth:api');
     Route::get('pasien/no-rkm-medis/{no_rkm_medis}', [PasienController::class, 'noRkmMedis'])->middleware('auth:api');
 
-    // Laporan Fatmasi
+    // Laporan Farmasi
     Route::get('laporan/farmasi/harian', [LaporanFarmasiController::class, 'index'])->middleware('auth:api');
 
+    // Antrian
+    Route::get('antrian/poli', [AntrianController::class, 'antrianPoli'])->middleware('auth:api');
 
 });
 
