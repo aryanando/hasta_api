@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\ManagementAbsensiController;
 use App\Http\Controllers\Api\OperasiJRController;
 use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\PengumumanController;
+use App\Http\Controllers\Api\PoliklinikController;
 use App\Http\Controllers\Api\RanapController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ShiftController;
@@ -24,8 +25,6 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\UserShiftController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\UserStatisticController;
-use App\Models\JenisKaryawan;
-use App\Models\simrs\AntriPoli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -108,6 +107,7 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Dokter
     Route::get('dokter', [DokterController::class, 'index'] )->middleware('auth:api');
+    Route::get('dokter/by-id', [DokterController::class, 'show'] )->middleware('auth:api');
 
     // Klaim Rujukan
     Route::get('rujukan', [KlaimRujukanController::class, 'index'] )->middleware('auth:api');
@@ -160,6 +160,9 @@ Route::group(['namespace' => 'Api', 'prefix' => 'v1'], function () {
 
     // Antrian
     Route::get('antrian/poli', [AntrianController::class, 'antrianPoli'])->middleware('auth:api');
+
+    // Poli
+    Route::get('poliklinik/by-id', [PoliklinikController::class, 'show'])->middleware('auth:api');
 
 });
 

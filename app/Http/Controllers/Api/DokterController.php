@@ -36,9 +36,17 @@ class DokterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $input = $request->all();
+        $dokter = Dokter::with('jadwalPoli.poliKlinik')
+        ->where('kd_dokter', '=', $input['kd_dokter'])
+        ->get()->first();
+        return response()->json([
+            'success' => true,
+            'message' => 'Get Absensi Sucessfull',
+            'data' => $dokter,
+        ], 200);
     }
 
     /**
