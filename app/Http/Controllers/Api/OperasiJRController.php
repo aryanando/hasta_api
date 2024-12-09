@@ -74,6 +74,7 @@ class OperasiJRController extends Controller
                         "biayadokter_anestesi" => 2100000,
                         "biayaasisten_anestesi" => 300000,
                         "biaya_omloop" => 150000,
+                        "biayasewaok" => 1000000,
                     ]);
             }
 
