@@ -21,6 +21,12 @@ class AntrianController extends Controller
             ->whereDate('tgl_registrasi', Carbon::today())
             ->limit(3)
             ->get();
+            $result3 = RegistrasiPeriksa::with(['pasien'])
+            ->where('kd_dokter', '=', $input['kd_dokter'])
+            ->where('stts', '=', 'Belum')
+            ->where('kd_poli', '=', $input['kd_poli'])
+            ->whereDate('tgl_registrasi', Carbon::today())
+            ->get();
         $message = 'Get Data Successfully';
         AntriPoli::where('kd_dokter', '=', $input['kd_dokter'])->delete();
         return response()->json([
@@ -28,7 +34,8 @@ class AntrianController extends Controller
             'message' => $message,
             'data' => [
                 'panggil' => $result,
-                'antrian'   => $result2
+                'antrian'   => $result2,
+                'jumlahAntrianLengkap' => count($result3)
             ]
         ], 200);
     }
